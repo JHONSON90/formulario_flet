@@ -2,10 +2,9 @@ import flet as ft
 import datetime
 from peticiones import UserManager
 
-class Formulario(ft.Column):
+class Formulario(ft.UserControl):
     def __init__(self, page):
-        super().__init__(expand=True)
-        
+        super().__init__(expand=True)        
         self.page = page
         self.data = UserManager()
         self.selected_row = None
@@ -72,19 +71,14 @@ class Formulario(ft.Column):
             bgcolor="#222222",
             border_radius=10,
             col=4,
-            height="auto",
+            #height="auto",
             padding=10,
             content=ft.Column(
                 alignment= ft.MainAxisAlignment.CENTER,
                 horizontal_alignment= ft.CrossAxisAlignment.CENTER,
 
                 controls=[
-                    ft.Text(
-                        "Formulario de Registro",
-                        size=40,
-                        text_align="center",
-                        color="white",
-                    ),
+                    
                     self.idClientes,
                     self.nombres,
                     self.telefono,
@@ -113,41 +107,97 @@ class Formulario(ft.Column):
             bgcolor="#222222",
             border_radius=10,
             padding=10,
-            col=6,
+            col=8,
+            
             content=ft.Column(
-                #expand=True,
+                expand=True,
                 controls=[
                     ft.Container(
-                        padding=10,
+                        #padding=10,
                         content=ft.Row(
                             scroll="always",
                             controls=[
-                                self.search_filed,
-                                
+                                self.search_filed,                                
                             ]
                         )
                     ),
                     ft.Column(
                         expand=True,
-                        scroll="always",
+                        scroll="auto",
                         
                         controls=[
-                            ft.ResponsiveRow([
-                                self.data_table,
-                                
+                            ft.ResponsiveRow(adaptive=True,
+                                             controls=[
+                                self.data_table,                                
                             ])
                         ]
                     )
                 ]
             )
         )
+        
+        self.sidebar = ft.Row(
+            controls=[
+        ft.NavigationRail(
+            expand=True,
+            height=100,
+            width=80,
+            selected_index=0,
+            label_type=ft.NavigationRailLabelType.ALL,
+            min_width=20,
+            min_extended_width=400,
+            #leading=ft.FloatingActionButton(icon=ft.icons.ASSIGNMENT_IND_OUTLINED, text="Crear Usuario"),
+            group_alignment=-1,
+            destinations=[
+                ft.NavigationBarDestination(
+                    icon_content=ft.Icon(ft.icons.ASSIGNMENT_IND),
+                    selected_icon_content=ft.Icon(ft.icons.ASSIGNMENT_IND_OUTLINED),
+                    label="Crear Usuario",
+                ),
+                ft.NavigationBarDestination(
+                    icon_content=ft.Icon(ft.icons.ADD_CIRCLE),
+                    selected_icon_content=ft.Icon(ft.icons.ADD_CIRCLE_OUTLINE_OUTLINED),
+                    label="Crear Registro",
+                ),
+                ft.NavigationBarDestination(
+                    icon_content=ft.Icon(ft.icons.DASHBOARD),
+                    selected_icon_content=ft.Icon(ft.icons.DASHBOARD_OUTLINED),
+                    label="Dashboard",
+                ),
+            ],
+            on_change=lambda e: print("selected destination: ", e.control.selected_index),
+            ),
+            ],
+        width=80,
+        height=700,
+        vertical_alignment=ft.CrossAxisAlignment.START
+        )
 
               
-        self.conent = ft.ResponsiveRow(
+        self.conent = ft.Column(
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             controls=[
-                self.form,
-                self.table
-            ]
+                ft.Text(
+                        "Formulario de Registro",
+                        size=40,
+                        text_align="center",
+                        color="white",
+                    ),
+        ft.Row(
+            [
+                ft.Container(self.sidebar, 
+                             expand=True,
+                             bgcolor="red",
+                             width=100,
+                             height=600),
+                ft.VerticalDivider(width=0.5),
+                ft.Container(self.form, expand=4),
+                ft.Container(self.table, expand=8)
+            ],
+            run_spacing=20,
+        ),
+            ],
+            
         )
         
     def show_data(self):
@@ -221,7 +271,6 @@ class Formulario(ft.Column):
                                 ft.DataCell(ft.Text(x[1],  color="white")),
                                 ft.DataCell(ft.Text(str(x[2]),  color="white")),
                                 ft.DataCell(ft.Text(x[3],  color="white")),
-
                             ]
                         )
                     )
@@ -249,9 +298,10 @@ def main(page: ft.Page):
     page.bgcolor = "black"
     page.horizontal_alignment=ft.CrossAxisAlignment.CENTER
     page.update()
-    page.window.min_height =1100
-    page.window.min_width =500
+    page.window.min_height = 500
+    page.window.min_width = 100
     page.add(Formulario(page))
+    
 
 
 ft.app(main)
