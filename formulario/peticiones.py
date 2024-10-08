@@ -42,3 +42,19 @@ class UserManager():
 
 # x.add_users(1,"Victor ", 123456, "victor@gmail.com")
 # print(x.get_users())
+
+
+    def add_registros(self, idClientes, valor, fecha, valor_servicio, tipo_de_servicio, usuario_final):
+            tabla = "seguimiento"
+            campos =  ["idClientes", "valor","fecha" "valor_servicio", "tipo_de_servicio", "usuario_final"]
+            valores =  [idClientes, valor, fecha, valor_servicio, tipo_de_servicio, usuario_final]
+            
+            query = f"INSERT INTO {tabla} ({','.join(campos)}) VALUES (%s,%s,%s,%s)"
+            self.cursor.execute(query, valores)
+            self.mydb.commit()
+            
+        
+    def get_registros(self):
+        self.cursor.execute("SELECT * FROM  seguimiento")
+        users = self.cursor.fetchall()
+        return users

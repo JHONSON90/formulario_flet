@@ -154,10 +154,42 @@ class Formulario_Diario(ft.UserControl):
             ]
         )
         
+        self.formulario_vacio = ft.AlertDialog(
+            modal=True,
+            title="Error",
+            content="El formulario esta  vacio",
+            actions=ft.TextButton("Ok", on_click=self.close_dlg),
+            actions_alignment=ft.MainAxisAlignment.END,
+            
+
+        )
+        
+    def close_dlg(self, e):
+        self.formulario_vacio.open =  False,
+        e.contol.page.update()
+
     
     def build(self):
         return self.conent
-        
+    
+    
+    
+    def add_data(self, e):
+        idClientes = self.idClientes.value,
+        fecha = "2024-04-20 ",
+        tipo_de_servicio = self.tipo_de_servicio,
+        usuario_final= self.usuario_final,
+        valor = self.valor,
+        valor_del_servicio = self.valor_del_servicio,
+    
+        if idClientes != "" and  fecha != "" and tipo_de_servicio != "" and usuario_final != "" and valor != "" and  valor_del_servicio != "":
+            print("formulario vacio")
+        else:
+            self.clean_fields()
+            self.data.add_registros(idClientes,  fecha, tipo_de_servicio, usuario_final, valor, valor_del_servicio),
+
+            
+
         
 def main(page: ft.Page):
     page.title = "Formulario de Registro"
