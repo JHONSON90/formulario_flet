@@ -1,6 +1,6 @@
 import flet as ft
-from seleccionar_fecha import  seleccionar_fecha
-from peticiones import UserManager
+from ..seleccionar_fecha import  seleccionar_fecha
+from ..peticiones import UserManager
 
 class Formulario_Diario(ft.UserControl):
     def __init__(self, page):
@@ -26,6 +26,7 @@ class Formulario_Diario(ft.UserControl):
                     size=14, 
                     color="black",
                 ),
+                input_filter=ft.NumbersOnlyInputFilter(),
             ),
             border= ft.border.all(width=1, color="#bdcbf4"),
             border_radius=20
@@ -99,6 +100,7 @@ class Formulario_Diario(ft.UserControl):
                     size=14, 
                     color="black",
                 ),
+                input_filter=ft.NumbersOnlyInputFilter(),
             ),
             border= ft.border.all(width=1, color="#bdcbf4"),
             border_radius=20
@@ -117,6 +119,7 @@ class Formulario_Diario(ft.UserControl):
                     size=14, 
                     color="black",
                 ),
+                input_filter=ft.NumbersOnlyInputFilter(),
             ),
             border= ft.border.all(width=1, color="#bdcbf4"),
             border_radius=30
@@ -148,6 +151,21 @@ class Formulario_Diario(ft.UserControl):
                             self.usuario_final,
                             self.valor,
                             self.valor_del_servicio,
+                            ft.Container(
+                                content=ft.Row(
+                                    alignment= ft.MainAxisAlignment.CENTER,
+                                    controls=[
+                                        ft.TextButton(
+                                        ft.Text="Guardar",
+                                        icon=ft.icons.SAVE,
+                                        style=ft.ButtonStyle(
+                                        color="white",
+                                    ),
+                                    on_click= self.add_data
+                                    ),
+                                        ],
+                                    ),
+                            )
                         ]
                     )
                 )
@@ -160,8 +178,6 @@ class Formulario_Diario(ft.UserControl):
             content="El formulario esta  vacio",
             actions=ft.TextButton("Ok", on_click=self.close_dlg),
             actions_alignment=ft.MainAxisAlignment.END,
-            
-
         )
         
     def close_dlg(self, e):
@@ -171,6 +187,15 @@ class Formulario_Diario(ft.UserControl):
     
     def build(self):
         return self.conent
+    
+    def clean_fields(self):
+        self.idClientes = ""
+        self.nombres = ""
+        self.tipo_de_servicio = ""
+        self.usuario_final = ""
+        self.valor = ""
+        self.valor_del_servicio = ""
+        self.fecha = ""
     
     
     
