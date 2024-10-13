@@ -1,5 +1,5 @@
 import flet as ft
-from ..peticiones import UserManager
+from ..data_base.peticiones import UserManager
 
 class Formulario(ft.UserControl):
     def __init__(self, page):
@@ -111,15 +111,3 @@ class Formulario(ft.UserControl):
            
     def build(self):
         return self.conent
-        
-def main(page: ft.Page):
-    page.title = "Formulario de Registro"
-    page.bgcolor = "black"
-    page.horizontal_alignment=ft.CrossAxisAlignment.CENTER
-    page.update()
-    page.window.min_height = 500
-    page.window.min_width = 100
-    page.add(Formulario(page))
-    
-
-ft.app(main)

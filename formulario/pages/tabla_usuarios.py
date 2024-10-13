@@ -1,6 +1,5 @@
 import flet as ft
-
-from ..peticiones import UserManager
+from ..data_base.peticiones import UserManager
 
 class Tabla_datos_clientes(ft.UserControl):
     def __init__(self, page):
@@ -22,7 +21,7 @@ class Tabla_datos_clientes(ft.UserControl):
         
         self.data_table = ft.DataTable(
             expand=True,
-            border=ft.border.all(2,"white"),
+            border=ft.border.all(2,"red"),
             border_radius=10,
             show_checkbox_column=True,
             # data_row_color={
@@ -75,6 +74,10 @@ class Tabla_datos_clientes(ft.UserControl):
                     )
                 ]
             )
+        )
+        
+        self.content = ft.Container(
+            self.table
         )
         
     def show_data(self):
@@ -138,3 +141,7 @@ class Tabla_datos_clientes(ft.UserControl):
                     self.update()
         else:
             self.show_data()
+            
+    def build(self):
+        return self.content
+            
