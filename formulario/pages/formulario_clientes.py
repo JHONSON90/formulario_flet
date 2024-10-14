@@ -1,7 +1,7 @@
 import flet as ft
-from ..data_base.peticiones import UserManager
+from data_base.peticiones import UserManager
 
-class Formulario(ft.UserControl):
+class Formulario_para_clientes(ft.UserControl):
     def __init__(self, page):
         super().__init__(expand=True)        
         self.page = page

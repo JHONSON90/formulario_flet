@@ -1,5 +1,5 @@
 import flet as ft
-from ..data_base.peticiones import UserManager
+from data_base.peticiones import UserManager
 
 class Tabla_datos_clientes(ft.UserControl):
     def __init__(self, page):

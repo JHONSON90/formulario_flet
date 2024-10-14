@@ -1,8 +1,9 @@
 import flet as ft
-from .pages.sidebar import My_Sidebar
-from .pages.formulario_clientes import Formulario
-from .pages.registros_diarios import Formulario_Diario
-from .pages.tabla_usuarios import Tabla_datos_clientes
+from pages.sidebar import My_Sidebar
+from pages.formulario_clientes import Formulario_para_clientes
+from pages.registros_diarios import Formulario_Diario
+from pages.tabla_usuarios import Tabla_datos_clientes
+from pages.home import Home
 
 def  main(page: ft.Page):
     def route_change(route):
@@ -12,7 +13,7 @@ def  main(page: ft.Page):
                 "/registro_clientes",
                 [sidebar,
                  ft.Container(
-                     content=Formulario()
+                     content=Formulario_para_clientes()
                  )
                  ]
             ))
@@ -48,7 +49,7 @@ def  main(page: ft.Page):
                 "/",
                 [sidebar,
                  ft.Container(
-                     content=ft.Text("Bienvenido a la aplicación")
+                     content=Home()
                      )
                  ]
                 ))

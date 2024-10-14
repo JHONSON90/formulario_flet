@@ -1,6 +1,6 @@
 import flet as ft
-from ..data_base.peticiones import UserManager
-from  datetime import datetime
+from data_base.peticiones import UserManager
+from datetime import datetime
 
 
 class Formulario_Diario(ft.UserControl):
@@ -229,14 +229,3 @@ class Formulario_Diario(ft.UserControl):
             self.nombres.content.value = "Cliente no encontrado"
         
         self.update()
-        
-def main(page: ft.Page):
-    page.bgcolor = "white"
-    page.title=" CRUD MySQL"
-    page.window.min_height =500
-    page.window.min_width =100
-
-    page.add(Formulario_Diario(page))
-
-
-ft.app(main)

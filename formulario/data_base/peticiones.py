@@ -1,5 +1,5 @@
 import mysql.connector as db
-from basededatos import connect_to_db
+from .basededatos import connect_to_db
 
 class UserManager():
     def  __init__(self):
@@ -16,7 +16,7 @@ class UserManager():
         query = f"INSERT INTO {tabla} ({','.join(campos)}) VALUES (%s,%s,%s,%s)"
         self.cursor.execute(query, valores)
         self.mydb.commit()
-        
+    
     def get_users(self):
         self.cursor.execute("SELECT * FROM  clientes")
         users = self.cursor.fetchall()
