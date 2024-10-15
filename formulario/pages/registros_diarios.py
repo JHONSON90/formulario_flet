@@ -1,6 +1,6 @@
 import flet as ft
-from data_base.peticiones import UserManager
 from datetime import datetime
+from ..data_base.peticiones import UserManager
 
 
 class Formulario_Diario(ft.UserControl):
@@ -14,10 +14,9 @@ class Formulario_Diario(ft.UserControl):
         
         self.fecha_actual = datetime.now().strftime("%Y-%m-%d")
         
-        self.idClientes = ft.Container(
-            content= ft.TextField(
+        self.idClientes = ft.TextField(
                 value="",
-                border=ft.InputBorder.NONE,
+                border_color="white",
                 content_padding= ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
@@ -31,15 +30,12 @@ class Formulario_Diario(ft.UserControl):
                 input_filter=ft.NumbersOnlyInputFilter(),
                 on_blur=self.busqueda_nombre
             ),
-            border= ft.border.all(width=1, color="#bdcbf4"),
-            border_radius=20
-        )    
+   
         
-        self.nombres = ft.Container(
-            content= ft.TextField(
+        self.nombres = ft.TextField(
                 value="",
                 read_only=True,
-                border=ft.InputBorder.NONE,
+                border_color="white",
                 content_padding= ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
@@ -51,14 +47,11 @@ class Formulario_Diario(ft.UserControl):
                     color="black",
                 ),
             ),
-            border= ft.border.all(width=1, color="#bdcbf4"),
-            border_radius=20
-        )    
+   
         
-        self.usuario_final = ft.Container(
-            content= ft.TextField(
+        self.usuario_final = ft.TextField(
                 value="",
-                border=ft.InputBorder.NONE,
+                border_color="white",
                 content_padding= ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
@@ -70,14 +63,11 @@ class Formulario_Diario(ft.UserControl):
                     color="black",
                 ),
             ),
-            border= ft.border.all(width=1, color="#bdcbf4"),
-            border_radius=20
-        ) 
+           
         
-        self.tipo_de_servicio = ft.Container(
-            content= ft.TextField(
+        self.tipo_de_servicio = ft.TextField(
                 value="",
-                border=ft.InputBorder.NONE,
+                border_color="white",
                 content_padding= ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
@@ -89,14 +79,11 @@ class Formulario_Diario(ft.UserControl):
                     color="black",
                 ),
             ),
-            border= ft.border.all(width=1, color="#bdcbf4"),
-            border_radius=20
-        )       
+     
         
-        self.valor = ft.Container(
-            content= ft.TextField(
+        self.valor = ft.TextField(
                 value="",
-                border=ft.InputBorder.NONE,
+                border_color="white",
                 content_padding= ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
@@ -109,14 +96,11 @@ class Formulario_Diario(ft.UserControl):
                 ),
                 input_filter=ft.NumbersOnlyInputFilter(),
             ),
-            border= ft.border.all(width=1, color="#bdcbf4"),
-            border_radius=20
-        )      
+                 
         
-        self.valor_del_servicio = ft.Container(
-            content= ft.TextField(
+        self.valor_del_servicio = ft.TextField(
                 value="",
-                border=ft.InputBorder.NONE,
+                border_color="white",
                 content_padding= ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
@@ -129,9 +113,7 @@ class Formulario_Diario(ft.UserControl):
                 ),
                 input_filter=ft.NumbersOnlyInputFilter(),
             ),
-            border= ft.border.all(width=1, color="#bdcbf4"),
-            border_radius=30
-        )      
+                 
     
     
         self.conent = ft.Column(
@@ -193,39 +175,47 @@ class Formulario_Diario(ft.UserControl):
         return self.conent
     
     def clean_fields(self):
-        self.idClientes = ""
-        self.nombres = ""
-        self.tipo_de_servicio = ""
-        self.usuario_final = ""
-        self.valor = ""
-        self.valor_del_servicio = ""
-        self.fecha = ""
+        self.idClientes.value = ""
+        self.nombres.value = ""
+        self.tipo_de_servicio.value = ""
+        self.usuario_final.value = ""
+        self.valor.value = ""
+        self.valor_del_servicio.value = ""
+        
     
     
     
     def add_data(self, e):
-        idClientes = self.idClientes.content.value
-        valor = self.valor
-        fecha = self.fecha_actual
-        valor_del_servicio = self.valor_del_servicio
-        tipo_de_servicio = self.tipo_de_servicio
-        usuario_final= self.usuario_final
+        idClientes = self.idClientes.value 
+        valor = self.valor.value
+        fecha = self.fecha_actual.value
+        valor_del_servicio = self.valor_del_servicio.value
+        tipo_de_servicio = self.tipo_de_servicio.value
+        usuario_final= self.usuario_final.value
         
-        print(idClientes, valor)
-    
         if idClientes == "" and  tipo_de_servicio == "" and usuario_final == "" and valor == "" and  valor_del_servicio == "":
             print("formulario vacio")
         else:
             self.clean_fields()
             self.data.add_registros(idClientes, valor,  fecha, valor_del_servicio, tipo_de_servicio, usuario_final),
+            self.update()
             
     def busqueda_nombre(self, e):
-        id_Cliente =  self.idClientes.content.value
+        id_Cliente =  self.idClientes.value
         nombre = self.data.get_user(id_Cliente)
-        
+                
         if nombre:
-            self.nombres.content.value = nombre
+            self.nombres.value = nombre
         else:
-            self.nombres.content.value = "Cliente no encontrado"
+            self.nombres.value = "Cliente no encontrado"
         
         self.update()
+        
+x = UserManager()
+# print(x.get_user(1085917679))
+
+from datetime import datetime
+
+hoy = datetime.now().strftime("%Y-%m-%d")
+
+x.add_registros(1085917679,  100, hoy, 100, "prueba2", "prueba2")

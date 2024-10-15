@@ -1,16 +1,15 @@
 import flet as ft
 
-class My_Sidebar(ft.UserControl):
-    def __init__(self,page):
-        super().__init__(expand=True)
-        
-        self.page = page
-        
-        self.sidebar = ft.Column(
-                    controls=[
+def my_Sidebar(page: ft.page):
+    sidebar =      ft.Container(
+            width=80,
+            height=740,
+            border=ft.border.all(color="red"),
+            content= ft.Column(
+                controls=[
                             ft.IconButton(ft.icons.ASSIGNMENT_IND, 
-                                          tooltip= "Registro Nuevo Cliente",
-                                          on_click=lambda _: page.go("/registro_clientes")),
+                                            tooltip= "Registro Nuevo Cliente",
+                                            on_click=lambda _: page.go("/registro_clientes")),
                             #selected_icon=ft.IconButton(ft.icons.ASSIGNMENT_IND_OUTLINED),
                             #label="Crear Cliente",
                             #on_click = lambda _: page.go("/registro_clientes")
@@ -63,13 +62,11 @@ class My_Sidebar(ft.UserControl):
     #     self.page.drawer = self.sidebar
     #     self.sidebar.open = True
     #     self.page.update()
-
-    def build(self):
-        return  ft.Container(
-            width=50,
-            height=700,
-            bgcolor = "white",
-            border=ft.border.all(color="red"),
-            content=self.sidebar
+            
     )
+    return sidebar
+    
+    
+
+
             

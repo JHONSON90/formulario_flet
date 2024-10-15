@@ -81,7 +81,7 @@ class Formulario_para_clientes(ft.UserControl):
             ]
         ) 
               
-        self.conent = ft.Container(
+        self.content = ft.Container(
             self.form
         )
     
@@ -110,4 +110,4 @@ class Formulario_para_clientes(ft.UserControl):
         self.show_data()
            
     def build(self):
-        return self.conent
+        return self.content

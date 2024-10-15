@@ -1,5 +1,5 @@
 import mysql.connector as db
-from .basededatos import connect_to_db
+from data_base.basededatos import connect_to_db
 
 class UserManager():
     def  __init__(self):
@@ -58,5 +58,11 @@ class UserManager():
         registros = self.cursor.fetchall()
         return registros
     
-# x = UserManager()
+x = UserManager()
 # print(x.get_user(1085917679))
+
+from datetime import datetime
+
+hoy = datetime.now().strftime("%Y-%m-%d")
+
+x.add_registros(1085917679,  100, hoy, 100, "prueba", "prueba")
