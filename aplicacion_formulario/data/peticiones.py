@@ -1,5 +1,6 @@
 import _mysql_connector as db
-from basededatos import connect_to_db
+
+from .basededatos import connect_to_db
 
 class UserManager():
     def  __init__(self):

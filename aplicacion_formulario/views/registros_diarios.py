@@ -15,13 +15,8 @@ class Formulario_Diario(ft.UserControl):
         
         self.idClientes = ft.TextField(
                 value="",
+                label="Identificacion",
                 border_color="white",
-                content_padding= ft.padding.only(
-                    top=0, bottom=0, right=20, left=20
-                ),
-                hint_style= ft.TextStyle(size=12),
-                hint_text="Identificacion del cliente",                
-                text_style=ft.TextStyle(size=14),
                 input_filter=ft.NumbersOnlyInputFilter(),
                 on_blur=self.busqueda_nombre
             ),
@@ -29,67 +24,38 @@ class Formulario_Diario(ft.UserControl):
         
         self.nombres = ft.TextField(
                 value="",
+                label="Nombres y Apellidos",
                 read_only=True,
                 border_color="white",
-                content_padding= ft.padding.only(
-                    top=0, bottom=0, right=20, left=20
-                ),
-                hint_style= ft.TextStyle(size=12),
-                hint_text="Nombre del cliente",                
-                text_style=ft.TextStyle(
-                    size=14                    
-                ),
             ),
    
         
         self.usuario_final = ft.TextField(
                 value="",
+                label="Destinatario Transaccion",
                 border_color="white",
-                content_padding= ft.padding.only(
-                    top=0, bottom=0, right=20, left=20
-                ),
-                hint_style= ft.TextStyle(size=12),
-                hint_text="A quien se le consigna?",              
-                text_style=ft.TextStyle(
-                    size=14,                     
-                ),
             ),
            
         
         self.tipo_de_servicio = ft.TextField(
                 value="",
+                label="Tipo de servicio",
                 border_color="white",
-                content_padding= ft.padding.only(
-                    top=0, bottom=0, right=20, left=20
-                ),
-                hint_style= ft.TextStyle(size=12),
-                hint_text="Tipo de transaccion",                
-                text_style=ft.TextStyle(size=14),
             ),
      
         
         self.valor = ft.TextField(
                 value="",
+                label="Valor Recibido",
                 border_color="white",
-                content_padding= ft.padding.only(
-                    top=0, bottom=0, right=20, left=20
-                ),
-                hint_style= ft.TextStyle(size=12),
-                hint_text="Valor recibido",                
-                text_style=ft.TextStyle(size=14),
                 input_filter=ft.NumbersOnlyInputFilter(),
             ),
                  
         
         self.valor_del_servicio = ft.TextField(
                 value="",
+                label="Cuanto le cuesta al cliente la transaccion",
                 border_color="white",
-                content_padding= ft.padding.only(
-                    top=0, bottom=0, right=20, left=20
-                ),
-                hint_style= ft.TextStyle(size=12),  
-                hint_text="Cuanto le cobra al cliente por la transaccion?",
-                text_style=ft.TextStyle(size=14),
                 input_filter=ft.NumbersOnlyInputFilter(),
             ),
         
@@ -135,8 +101,7 @@ class Formulario_Diario(ft.UserControl):
         e.contol.page.update()
 
     
-    def build(self):
-        return self.conent
+    
     
     def clean_fields(self):
         self.idClientes.value = ""
@@ -174,3 +139,6 @@ class Formulario_Diario(ft.UserControl):
             self.nombres.value = "Cliente no encontrado"
         
         self.update()
+        
+    def build(self):
+        return self.content

@@ -1,4 +1,7 @@
 import flet as ft
+from views.formulario_cliente import Formulario_para_clientes
+from views.registros_diarios import Formulario_Diario
+from views.tabla_usuarios import Tabla_datos_clientes
 
 def main (page:ft.Page):
     page.title = "Formulario",
@@ -75,7 +78,7 @@ def main (page:ft.Page):
                         ]
                         
                     ),
-                        ft.Text("Aqui va el registro de usuarios")
+                        Formulario_para_clientes(page)
                     ]
                 )
             )
@@ -113,7 +116,7 @@ def main (page:ft.Page):
                             ]
                             
                         ),
-                            ft.Text("Aqui va el listado de usuarios")
+                            Tabla_datos_clientes(page)
                         ]
                     )
                 )
@@ -151,7 +154,8 @@ def main (page:ft.Page):
                                 ]
                                 
                             ),
-                                ft.Text("Aqui va el formulario diario")
+                                #Formulario_Diario(page)
+                                ft.Text("colocar el formulario diario revisado y corregido aqui")
                             ]
                         )
                     )
