@@ -1,5 +1,5 @@
-import flet as ft
-from data_base.peticiones import UserManager
+import flet as ft 
+from data.peticiones import UserManager
 
 class Formulario_para_clientes(ft.UserControl):
     def __init__(self, page):
@@ -81,9 +81,7 @@ class Formulario_para_clientes(ft.UserControl):
             ]
         ) 
               
-        self.content = ft.Container(
-            self.form
-        )
+        self.content = self.form
     
     def add_data(self, e):
         idClientes = self.idClientes.value

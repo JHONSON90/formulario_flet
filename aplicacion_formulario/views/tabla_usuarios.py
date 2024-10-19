@@ -1,5 +1,5 @@
 import flet as ft
-from data_base.peticiones import UserManager
+from data.peticiones import UserManager
 
 class Tabla_datos_clientes(ft.UserControl):
     def __init__(self, page):
@@ -76,9 +76,8 @@ class Tabla_datos_clientes(ft.UserControl):
             )
         )
         
-        self.content = ft.Container(
-            self.table
-        )
+        self.content = self.table
+
         
     def show_data(self):
         self.data_table.rows=[]
@@ -144,4 +143,3 @@ class Tabla_datos_clientes(ft.UserControl):
             
     def build(self):
         return self.content
-            

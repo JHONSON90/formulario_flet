@@ -1,7 +1,6 @@
 import flet as ft
 from datetime import datetime
-from ..data_base.peticiones import UserManager
-
+from data.peticiones import UserManager
 
 class Formulario_Diario(ft.UserControl):
     def __init__(self, page):
@@ -20,13 +19,9 @@ class Formulario_Diario(ft.UserControl):
                 content_padding= ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
-                hint_style= ft.TextStyle(size=12,  color="#858796"),
-                hint_text="Identificacion del cliente",
-                cursor_color="#858796",
-                text_style=ft.TextStyle(
-                    size=14, 
-                    color="black",
-                ),
+                hint_style= ft.TextStyle(size=12),
+                hint_text="Identificacion del cliente",                
+                text_style=ft.TextStyle(size=14),
                 input_filter=ft.NumbersOnlyInputFilter(),
                 on_blur=self.busqueda_nombre
             ),
@@ -39,12 +34,10 @@ class Formulario_Diario(ft.UserControl):
                 content_padding= ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
-                hint_style= ft.TextStyle(size=12,  color="#858796"),
-                hint_text="Nombre del cliente",
-                cursor_color="#858796",
+                hint_style= ft.TextStyle(size=12),
+                hint_text="Nombre del cliente",                
                 text_style=ft.TextStyle(
-                    size=14, 
-                    color="black",
+                    size=14                    
                 ),
             ),
    
@@ -55,12 +48,10 @@ class Formulario_Diario(ft.UserControl):
                 content_padding= ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
-                hint_style= ft.TextStyle(size=12,  color="#858796"),
-                hint_text="A quien se le consigna?",
-                cursor_color="#858796",
+                hint_style= ft.TextStyle(size=12),
+                hint_text="A quien se le consigna?",              
                 text_style=ft.TextStyle(
-                    size=14, 
-                    color="black",
+                    size=14,                     
                 ),
             ),
            
@@ -71,13 +62,9 @@ class Formulario_Diario(ft.UserControl):
                 content_padding= ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
-                hint_style= ft.TextStyle(size=12,  color="#858796"),
-                hint_text="Tipo de transaccion",
-                cursor_color="#858796",
-                text_style=ft.TextStyle(
-                    size=14, 
-                    color="black",
-                ),
+                hint_style= ft.TextStyle(size=12),
+                hint_text="Tipo de transaccion",                
+                text_style=ft.TextStyle(size=14),
             ),
      
         
@@ -87,13 +74,9 @@ class Formulario_Diario(ft.UserControl):
                 content_padding= ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
-                hint_style= ft.TextStyle(size=12,  color="#858796"),
-                hint_text="Valor recibido",
-                cursor_color="#858796",
-                text_style=ft.TextStyle(
-                    size=14, 
-                    color="black",
-                ),
+                hint_style= ft.TextStyle(size=12),
+                hint_text="Valor recibido",                
+                text_style=ft.TextStyle(size=14),
                 input_filter=ft.NumbersOnlyInputFilter(),
             ),
                  
@@ -104,59 +87,40 @@ class Formulario_Diario(ft.UserControl):
                 content_padding= ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
-                hint_style= ft.TextStyle(size=12),  #color="#858796"),
+                hint_style= ft.TextStyle(size=12),  
                 hint_text="Cuanto le cobra al cliente por la transaccion?",
-                # cursor_color="#858796",
-                text_style=ft.TextStyle(
-                    size=14, 
-                    #color="black",
-                ),
+                text_style=ft.TextStyle(size=14),
                 input_filter=ft.NumbersOnlyInputFilter(),
             ),
-                 
-    
-    
-        self.conent = ft.Column(
-            alignment= "center",
-            horizontal_alignment= "center",
-            controls=[
-                ft.Container(
-                    width=500,
-                    border_radius=12,
-                    padding= 40,
-                    #bgcolor="white",
-                    content= ft.Column(
-                        horizontal_alignment="center",
-                        controls=[
-                            ft.Text(
-                                "Registro de Transacciones",
-                                size=16,
-                                #color="black",
-                                text_align="center"
-                            ),                            
-                            self.idClientes,
-                            self.nombres,
-                            self.tipo_de_servicio,
-                            self.usuario_final,
-                            self.valor,
-                            self.valor_del_servicio,
-                            ft.Container(
-                                content=ft.Row(
-                                    alignment= ft.MainAxisAlignment.CENTER,
-                                    controls=[
-                                        ft.TextButton(
-                                            "Guardar",
-                                            icon=ft.icons.SAVE,
-                                    on_click= self.add_data
-                                    ),
-                                        ],
-                                    ),
-                            )
-                        ]
-                    )
-                )
-            ]
-        )
+        
+        self.form_registro_clientes = ft.Column(
+                            horizontal_alignment="center",
+                            controls=[
+                                ft.Text(
+                                    "Registro de Transacciones",
+                                    size=16,
+                                    text_align="center"
+                                ),                            
+                                self.idClientes,
+                                self.nombres,
+                                self.tipo_de_servicio,
+                                self.usuario_final,
+                                self.valor,
+                                self.valor_del_servicio,
+                                ft.Row(
+                                        alignment= ft.MainAxisAlignment.CENTER,
+                                        controls=[
+                                            ft.TextButton(
+                                                "Guardar",
+                                                icon=ft.icons.SAVE,
+                                        on_click= self.add_data
+                                        ),
+                                            ],
+                                        ),
+                            ],
+                            
+                                    )
+        self.content = self.form_registro_clientes
         
         self.formulario_vacio = ft.AlertDialog(
             modal=True,
@@ -210,12 +174,3 @@ class Formulario_Diario(ft.UserControl):
             self.nombres.value = "Cliente no encontrado"
         
         self.update()
-        
-x = UserManager()
-# print(x.get_user(1085917679))
-
-from datetime import datetime
-
-hoy = datetime.now().strftime("%Y-%m-%d")
-
-x.add_registros(1085917679,  100, hoy, 100, "prueba2", "prueba2")

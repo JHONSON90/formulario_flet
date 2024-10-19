@@ -1,8 +1,8 @@
 import flet as ft
 
-from formulario.pages.formulario_clientes import Formulario
-from pages.registros_diarios import Formulario_Diario
-from pages.tabla_usuarios import Tabla_datos_clientes
+from formulario.views.formulario_clientes import Formulario
+from views.registros_diarios import Formulario_Diario
+from views.tabla_usuarios import Tabla_datos_clientes
 
 
 class Router:
