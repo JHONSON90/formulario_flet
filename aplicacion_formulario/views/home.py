@@ -10,9 +10,7 @@ class Login(ft.Container):
             content=ft.TextField(
                 label= "Correo Electronico",
                 value="",
-                input_filter=ft.RegexInputFilter(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"),
-                helper_text="Debe ser un correo electrónico válido",
-                error_text="Formato de correo inválido",
+                input_filter=ft.EmailInputFilter()
                 )
         )
         
@@ -21,7 +19,7 @@ class Login(ft.Container):
                 label="Contraseña",
                 password=True
             )
-        ),
+        )
         
         self.form = ft.Column(
             alignment=ft.alignment.center,
@@ -45,9 +43,7 @@ class Login(ft.Container):
                                 alignment=ft.alignment.center,
                                 height=40,
                                 border_radius=30,
-                                content=[
-                                    ft.Text("Login")
-                                ]
+                                content=ft.Text("Login")
                             )
                         ]
                     )

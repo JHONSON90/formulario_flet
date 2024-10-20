@@ -2,6 +2,8 @@ import flet as ft
 from views.formulario_cliente import Formulario_para_clientes
 from views.registros_diarios import Formulario_Diario
 from views.tabla_usuarios import Tabla_datos_clientes
+from views.home import Login
+
 
 def main (page:ft.Page):
     page.title = "Formulario",
@@ -29,42 +31,15 @@ def main (page:ft.Page):
             ft.View(
                 "/",
                 [
-                    ft.AppBar(
-                        title=ft.Text("Home"),
-                        bgcolor=ft.colors.SURFACE_CONTAINER_HIGHEST,
-                        actions=[
-                            ft.IconButton(ft.icons.ASSIGNMENT_IND,
-                                          tooltip= "Registro Nuevo Cliente",
-                                            on_click=lambda _: page.go("/registro_clientes")),
-                            ft.IconButton(ft.icons.LIST_ROUNDED, 
-                                          tooltip="Listado de Clientes",
-                                          on_click = lambda _: page.go("/listado_clientes")),
-                            ft.IconButton(ft.icons.ADD_CIRCLE, 
-                                          tooltip="Crear Registro",
-                                          on_click = lambda _: page.go("/registros_diarios")),
-                            ft.IconButton(ft.icons.DASHBOARD,
-                                          tooltip="Dashboard",
-                                          on_click = lambda _: page.go("/dashboard")),
-                            theme_icon_button,
-                            ft.PopupMenuButton(
-                                items=[
-                                    ft.PopupMenuItem(
-                                        text="Ajustes"
-                                    ),
-                                    ft.PopupMenuItem(
-                                        text="Cerrar Sesion"
-                                    )
-                                    ]),
-                        ]
-                        
-                    ),
-                    ft.Text("Bienvenido a la aplicacion de registro de clientes"),
+                   Login(page)
+                   
                 ]
             )
         )
         
         if page.route ==  "/registro_clientes":
             page.views.append(
+                
                 ft.View(
                     "/registro_clientes",
                     [
