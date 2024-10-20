@@ -13,15 +13,15 @@ class Tabla_datos_clientes(ft.UserControl):
             value="",
             suffix_icon=ft.icons.SEARCH,
             border= ft.InputBorder.UNDERLINE,
-            border_color="white",
-            label_style=ft.TextStyle(color="white"),
-            color="white",
+            #border_color="white",
+            #label_style=ft.TextStyle(color="white"),
+            #color="white",
             on_change= self.search_data,
         )
         
         self.data_table = ft.DataTable(
             expand=True,
-            border=ft.border.all(2,"red"),
+            border=ft.border.all(2),
             border_radius=10,
             show_checkbox_column=True,
             # data_row_color={
@@ -29,13 +29,13 @@ class Tabla_datos_clientes(ft.UserControl):
             #     ft.ControlState.PRESSED:"gray"
             # },
             columns=[
-                ft.DataColumn(ft.Text("Identificacion", color="white", weight="bold"),                             
+                ft.DataColumn(ft.Text("Identificacion", weight="bold"),                             
                               numeric=True),
-                ft.DataColumn(ft.Text("Nombres y Apellidos", color="white", weight="bold")),
+                ft.DataColumn(ft.Text("Nombres y Apellidos", weight="bold")),
                 
-                ft.DataColumn(ft.Text("Telefono", color="white", weight="bold"), numeric=True),
+                ft.DataColumn(ft.Text("Telefono", weight="bold"), numeric=True),
                 
-                ft.DataColumn(ft.Text("Correo Electronico", color="white", weight="bold")),
+                ft.DataColumn(ft.Text("Correo Electronico", weight="bold")),
                 
             ]
         )
@@ -44,7 +44,7 @@ class Tabla_datos_clientes(ft.UserControl):
         
         
         self.table =  ft.Container(
-            bgcolor="#222222",
+            #bgcolor="#222222",
             border_radius=10,
             padding=10,
             col=8,
@@ -86,10 +86,10 @@ class Tabla_datos_clientes(ft.UserControl):
                 ft.DataRow(
                     on_select_changed=self.get_index,
                     cells=[
-                        ft.DataCell(ft.Text(str(x[0]), color="white")),
-                        ft.DataCell(ft.Text(x[1], color="white")),
-                        ft.DataCell(ft.Text(str(x[2]), color="white")),
-                        ft.DataCell(ft.Text(x[3], color="white")),
+                        ft.DataCell(ft.Text(str(x[0]))),
+                        ft.DataCell(ft.Text(x[1])),
+                        ft.DataCell(ft.Text(str(x[2]))),
+                        ft.DataCell(ft.Text(x[3])),
                     ]
                 )
             )
@@ -130,10 +130,10 @@ class Tabla_datos_clientes(ft.UserControl):
                         ft.DataRow(
                             on_select_changed= self.get_index,
                             cells=[
-                                ft.DataCell(ft.Text(str(x[0]), color="white")),
-                                ft.DataCell(ft.Text(x[1],  color="white")),
-                                ft.DataCell(ft.Text(str(x[2]),  color="white")),
-                                ft.DataCell(ft.Text(x[3],  color="white")),
+                                ft.DataCell(ft.Text(str(x[0]))),
+                                ft.DataCell(ft.Text(x[1],)),
+                                ft.DataCell(ft.Text(str(x[2]),)),
+                                ft.DataCell(ft.Text(x[3],)),
                             ]
                         )
                     )
