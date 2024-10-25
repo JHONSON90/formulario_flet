@@ -203,6 +203,8 @@ def main (page:ft.Page):
         page.go(top_view.route)
 
     page.on_route_change = route_change
+    page.vertical_alignment = "center",
+    page.horizontal_alignment = "center",
     page.theme_mode = "light"
     page.on_view_pop = view_pop  
     page.go(page.route)      

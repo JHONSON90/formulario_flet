@@ -10,92 +10,71 @@ class Login(ft.Container):
             content=ft.TextField(
                 label= "Correo Electronico",
                 value="",
-                input_filter=ft.EmailInputFilter()
+                border="underline",
+                prefix_icon=ft.icons.EMAIL
+                #input_filter=()
                 )
         )
         
         self.password = ft.Container(
             content=ft.TextField(
                 label="Contraseña",
-                password=True
+                border="underline",
+                prefix_icon=ft.icons.LOCK,
+                password=True,
+                can_reveal_password=True
             )
         )
         
-        self.form = ft.Column(
-            alignment=ft.alignment.center,
-            horizontal_alignment= ft.CrossAxisAlignment.CENTER,
-            controls=[
-                ft.Container(
-                    width=500,
-                    border_radius=12,
-                    padding=40,
-                    content=ft.Column(
-                        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                        controls=[
-                            ft.Text("Bienvenido a tu aplicación",
-                                    size=16,
-                                    text_align="center"
-                                    ),
-                            self.email_box,
-                            self.password,
-                            
-                            ft.Container(
-                                alignment=ft.alignment.center,
-                                height=40,
-                                border_radius=30,
-                                content=ft.Text("Login")
-                            )
-                        ]
-                    )
+        self.recuerdame = ft.Container(
+            padding= ft.padding.only(80),
+            content=ft.Checkbox(
+                label="Recordar Contraseña"
                 )
-            ]
         )
+        
+        self.iniciar_sesion = ft.Container(
+            padding= ft.padding.only(20,20),
+            content=ft.ElevatedButton(
+                "INICIAR",
+                width=280
+            )
+        )
+        
+        self.form = ft.Container(
+            border_radius=20,
+            width=320,
+            height=500,
+            bgcolor=ft.colors.PURPLE,
+            padding=20,
+            content=ft.Column(
+                alignment=ft.MainAxisAlignment.SPACE_EVENLY,
+                
+                controls=[
+                    ft.Container(
+                        ft.Text(
+                        "Iniciar  Sesión",
+                        width= 320,
+                        weight="w900",
+                        size=30,
+                        text_align="center",                    
+                            ),
+                        padding=ft.padding.only(20,20)
+                    ),
+
+                self.email_box,
+                self.password,
+                self.recuerdame,
+                self.iniciar_sesion
+                
+                ]
+                
+            )
+            
+            )
         
         self.content = self.form
     
     def build(self):
         return self.content
-    
-    
-"""
-import flet as ft
-
-# Componente de TextField con filtro de entrada basado en Regex para correo electrónico
-email_field = ft.TextField(
-    label="Correo electrónico",
-    hint_text="Introduce tu correo electrónico",
-    border_color="blue",
-    input_filter=ft.RegexInputFilter(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"),
-    helper_text="Debe ser un correo electrónico válido",
-    error_text="Formato de correo inválido",
-)
-
-# Ejemplo básico de visualización
-def main(page: ft.Page):
-    page.title = "Validación de Correo Electrónico"
-    
-    def on_submit(e):
-        if email_field.value == "":
-            page.dialog = ft.AlertDialog(
-                title=ft.Text("Error"),
-                content=ft.Text("Por favor, ingrese un correo electrónico"),
-                on_dismiss=lambda e: page.dialog.open = False,
-            )
-            page.dialog.open = True
-        else:
-            page.dialog = ft.AlertDialog(
-                title=ft.Text("Correo Válido"),
-                content=ft.Text(f"El correo {email_field.value} es válido"),
-                on_dismiss=lambda e: page.dialog.open = False,
-            )
-            page.dialog.open = True
-        page.update()
-
-    submit_button = ft.TextButton("Validar correo", on_click=on_submit)
-
-    # Añadir campo de correo y botón a la página
-    page.add(email_field, submit_button)
-
-ft.app(target=main)        
-        
-        """
+  
