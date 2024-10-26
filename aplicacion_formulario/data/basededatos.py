@@ -1,11 +1,12 @@
 import mysql.connector
+import os
 
 try:
     def connect_to_db():
         db = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="1085917679JHon",
+            password=os.getenv('PASSWORD_MYSQL'),
             database="formulario"
         )
         return db

@@ -3,6 +3,7 @@ from views.formulario_cliente import Formulario_para_clientes
 from views.registros_diarios import Formulario_Diario
 from views.tabla_usuarios import Tabla_datos_clientes
 from views.home import Login
+from views.pagina_principal import Pagina_principal
 
 
 def main (page:ft.Page):
@@ -36,6 +37,44 @@ def main (page:ft.Page):
                 ]
             )
         )
+        if page.route == "/home":
+            page.views.append(
+                ft.View(
+                    "/home",
+                    [
+                        ft.AppBar(
+                        title=ft.Text("Registro de Clientes"),
+                        bgcolor=ft.colors.SURFACE_CONTAINER_HIGHEST,
+                        actions=[
+                            ft.IconButton(ft.icons.HOME,
+                                          tooltip= "Registro Nuevo Cliente",
+                                            on_click=lambda _: page.go("/")),
+                            ft.IconButton(ft.icons.LIST_ROUNDED, 
+                                          tooltip="Listado de Clientes",
+                                          on_click = lambda _: page.go("/listado_clientes")),
+                            ft.IconButton(ft.icons.ADD_CIRCLE, 
+                                          tooltip="Crear Registro",
+                                          on_click = lambda _: page.go("/registros_diarios")),
+                            ft.IconButton(ft.icons.DASHBOARD,
+                                          tooltip="Dashboard",
+                                          on_click = lambda _: page.go("/dashboard")),
+                            theme_icon_button,
+                            ft.PopupMenuButton(
+                                items=[
+                                    ft.PopupMenuItem(
+                                        text="Ajustes"
+                                    ),
+                                    ft.PopupMenuItem(
+                                        text="Cerrar Sesion"
+                                    )
+                                    ]),
+                        ]
+                        
+                    ),    
+                    ],
+                    Pagina_principal(page)
+                )
+            )
         
         if page.route ==  "/registro_clientes":
             page.views.append(
@@ -88,7 +127,7 @@ def main (page:ft.Page):
                         actions=[
                             ft.IconButton(ft.icons.HOME,
                                         tooltip= "Home",
-                                            on_click=lambda _: page.go("/")),
+                                            on_click=lambda _: page.go("/home")),
                             ft.IconButton(ft.icons.ASSIGNMENT_IND,
                                       tooltip= "Registro Nuevo Cliente",
                                         on_click=lambda _: page.go("/registro_clientes")),
@@ -127,7 +166,7 @@ def main (page:ft.Page):
                             actions=[
                                 ft.IconButton(ft.icons.HOME,
                                              tooltip= "Home",
-                                             on_click=lambda _: page.go("/")),
+                                             on_click=lambda _: page.go("/home")),
                                 ft.IconButton(ft.icons.ASSIGNMENT_IND,
                                             tooltip= "Registro Nuevo Cliente",
                                             on_click=lambda _: page.go("/registro_clientes")),
@@ -167,7 +206,7 @@ def main (page:ft.Page):
                                     actions=[
                                         ft.IconButton(ft.icons.HOME,
                                                     tooltip= "Home",
-                                                        on_click=lambda _: page.go("/")),
+                                                        on_click=lambda _: page.go("/home")),
                                         ft.IconButton(ft.icons.ASSIGNMENT_IND,
                                                 tooltip= "Registro Nuevo Cliente",
                                                     on_click=lambda _: page.go("/registro_clientes")),
