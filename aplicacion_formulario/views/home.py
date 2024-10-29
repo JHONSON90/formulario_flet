@@ -1,6 +1,34 @@
 import flet as ft
+import pyrebase
+import datetime
+from functools import partial
 
-class Login(ft.Container):
+
+config = {
+    "apiKey": "AIzaSyBEkRXhhYWcZ4ZotXKt5fpAJnAXhK-Hi6Q",
+    "authDomain": "formulario-transacciones.firebaseapp.com",
+    "projectId": "formulario-transacciones",
+    "storageBucket": "formulario-transacciones.appspot.com",
+    "messagingSenderId": "327051591986",
+    "appId": "1:327051591986:web:4a08ae30e52fd6a812d72b",
+    "databaseURL": ""
+        #"https://formulario-transacciones-default-rtdb.firebaseio.com",
+  };
+
+#inicializar firebase
+firebase = pyrebase.initialize_app(config)
+
+# set up authentication manager
+
+auth = firebase.auth()
+
+class AppState:
+    def __init__(self):
+        self.user = None
+app_state = AppState()
+
+
+class Login(ft.UserControl):
     def __init__(self, page: ft.Page):
         super().__init__(expand=True)
         self.alignment = ft.alignment.center
@@ -37,7 +65,16 @@ class Login(ft.Container):
             padding= ft.padding.only(20,20),
             content=ft.ElevatedButton(
                 "INICIAR",
-                width=280
+                width=280, 
+                on_click=partial(self.sign_in)
+            )
+        )
+        self.registrarse = ft.Container(
+            padding= ft.padding.only(20,20),
+            content=ft.ElevatedButton(
+                "REGISTRARSE",
+                width=280, 
+                on_click=lambda _: page.go("/registro")
             )
         )
         
@@ -65,8 +102,8 @@ class Login(ft.Container):
                 self.email_box,
                 self.password,
                 self.recuerdame,
-                self.iniciar_sesion
-                
+                self.iniciar_sesion,
+                self.registrarse
                 ]
                 
             )
@@ -74,6 +111,44 @@ class Login(ft.Container):
             )
         
         self.content = self.form
+    
+    def clear_fields(self):
+        self.email_box.content.value = ""
+        self.password.content.value = ""
+        self.update()
+        
+    
+    def sign_in(self, e):
+        email = self.email_box.content.value
+        contraseña = self.password.content.value 
+        
+        if not email or not  contraseña:
+            print("Favor ingrese todos los campos")
+            return False
+            
+        try:
+            user = auth.sign_in_with_email_and_password(
+                   email,
+                   contraseña
+                )
+            info = auth.get_account_info(user["idToken"])
+                
+            if info:
+                    app_state.user = user
+                    self.clear_fields()
+                    print("entro y estoy aqui")
+                    self.page.go("/home")
+                    print("paso y estoy aqui")
+                    print(app_state.user)
+                    return True
+
+            else: return  False
+            
+    
+                
+        except Exception as e:
+                print(f"Favor verifique los datos ingresados{e}")
+                return False
     
     def build(self):
         return self.content

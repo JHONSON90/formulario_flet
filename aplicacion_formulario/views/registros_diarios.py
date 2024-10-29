@@ -137,7 +137,8 @@ class Formulario_Diario(ft.UserControl):
             print("formulario vacio")
         else:
             self.clean_fields()
-            self.data.add_registros(idClientes, valor,  fecha, valor_del_servicio, tipo_de_servicio, usuario_final),
+            self.data.add_registros(idClientes, valor,  fecha, valor_del_servicio, tipo_de_servicio, usuario_final)
+            
             
             
     def busqueda_nombre(self, e):

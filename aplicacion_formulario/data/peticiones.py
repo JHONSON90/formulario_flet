@@ -62,26 +62,3 @@ class UserManager():
         self.cursor.execute(query)
         registros = self.cursor.fetchall()
         return registros
-    
-    
-    def encriptar_contraseña(contraseña):
-        return bcrypt.hashpw(contraseña.endcode('utf-8'),bcrypt.gensalt())
-    
-    def verificar_contraseña(contraseña, hash_contraseña):
-        return bcrypt.checkpw(contraseña.encode('utf-8'), hash_contraseña)
-    
-    def generar_token(usuario_id):
-        payload = {'usuario_id': usuario_id,
-                   # definimos 10 minutos de expedicion del token
-                   'exp': datetime.datetime.now() + datetime.timedelta(minutes=10)}
-        return jwt.endcode(payload, "formulario_transacciones",  algorithm="HS256")
-    
-    def iniciar_sesion(self, correo, contraseña):
-        query = "SELECT * FROM usuarios WHERE correo = %s;"
-        self.cursor.execute(query)
-        usuario = self.cursor.fetchone()
-        if usuario:
-            if self.verificar_contraseña(contraseña, usuario[3]):
-                token = self.generar_token(usuario[0])
-                return token
-        return None

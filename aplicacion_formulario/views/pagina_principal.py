@@ -69,6 +69,7 @@ class Pagina_principal(ft.Container):
 
         self.content = self.listado_navegacion
         
+       
     def build(self):
         return self.content
         
