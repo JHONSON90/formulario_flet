@@ -5,6 +5,7 @@ from views.tabla_usuarios import Tabla_datos_clientes
 from views.home import Login, app_state
 from views.pagina_principal import Pagina_principal
 from views.registro import Registro
+from views.dashboard import Dashboard_final
 
 def main (page:ft.Page):
     page.title = "Formulario",
@@ -56,8 +57,9 @@ def main (page:ft.Page):
                                             text="Ajustes"
                                         ),
                                         ft.PopupMenuItem(
-                                            text="Cerrar Sesion"
-                                        )
+                                            text="Cerrar Sesion",
+                                            #on_click= click_cerrar_sesion,
+                                        ),
                                         ]),
                             ]
                             
@@ -71,7 +73,7 @@ def main (page:ft.Page):
                 page.views.append(
                     ft.View(
                         "/registro_clientes",
-                        
+                    
                         [
                             ft.AppBar(
                             title=ft.Text("Registro de Clientes"),
@@ -96,7 +98,8 @@ def main (page:ft.Page):
                                             text="Ajustes"
                                         ),
                                         ft.PopupMenuItem(
-                                            text="Cerrar Sesion"
+                                            text="Cerrar Sesion",
+                                            #on_click= click_cerrar_sesion,
                                         )
                                         ]),
                             ]
@@ -135,7 +138,8 @@ def main (page:ft.Page):
                                             text="Ajustes"
                                         ),
                                         ft.PopupMenuItem(
-                                            text="Cerrar Sesion"
+                                            text="Cerrar Sesion",
+                                            #on_click=click_cerrar_sesion
                                         )
                                         ]),
                             ]
@@ -174,7 +178,8 @@ def main (page:ft.Page):
                                                     text="Ajustes"
                                                 ),
                                                 ft.PopupMenuItem(
-                                                    text="Cerrar Sesion"
+                                                    text="Cerrar Sesion",
+                                                    #on_click= click_cerrar_sesion
                                                 )
                                                 ]),
                                     ]
@@ -214,13 +219,14 @@ def main (page:ft.Page):
                                                         text="Ajustes"
                                                     ),
                                                     ft.PopupMenuItem(
-                                                        text="Cerrar Sesion"
+                                                        text="Cerrar Sesion",
+                                                        #on_click= click_cerrar_sesion
                                                     )
                                                     ]),
                                         ]
                                         
                                     ),
-                                        ft.Text("Aqui va el dashBoard"),
+                                        Dashboard_final(page),
                                     ]
                                 )
                             )
@@ -234,6 +240,7 @@ def main (page:ft.Page):
                     ]
                 )
             )
+            
             if page.route ==  "/registro":
                 page.views.append(
                     ft.View(
@@ -244,13 +251,18 @@ def main (page:ft.Page):
                     )
                 )
             page.update()
-                  
-        
+
+    # def click_cerrar_sesion(e):
+    #     app_state.cerrar_sesion(e)
+    #     page.go("/")
+
+
     def view_pop(view):
         page.views.pop()
         top_view = page.views[-1]
         page.go(top_view.route)
-
+        
+    
     page.on_route_change = route_change
     page.vertical_alignment = "center",
     page.horizontal_alignment = "center",

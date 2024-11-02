@@ -1,8 +1,4 @@
 import _mysql_connector as db
-import bcrypt
-import jwt
-import datetime
-
 
 from .basededatos import connect_to_db
 

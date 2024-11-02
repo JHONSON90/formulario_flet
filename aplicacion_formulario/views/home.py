@@ -25,6 +25,11 @@ auth = firebase.auth()
 class AppState:
     def __init__(self):
         self.user = None
+    
+    # def cerrar_sesion(self, e):
+        #self.user = None
+        #print("cerrando sesion")
+            
 app_state = AppState()
 
 
