@@ -1,6 +1,5 @@
 import _mysql_connector as db
-
-from .basededatos import connect_to_db
+from data.basededatos import connect_to_db
 
 class UserManager():
     def  __init__(self):
@@ -32,7 +31,6 @@ class UserManager():
         else:
             return None
 
-
     def delete_users(self,  idClientes):
         query = "DELETE FROM clientes WHERE idClientes = %s"
         self.cursor.execute(query)
@@ -58,3 +56,38 @@ class UserManager():
         self.cursor.execute(query)
         registros = self.cursor.fetchall()
         return registros
+
+    def total_recibido(self):
+        query = "SELECT SUM(valor) FROM seguimiento;"
+        self.cursor.execute(query)
+        registro = self.cursor.fetchone()
+        return registro
+    
+    def total_cobrado(self):
+        query = "SELECT SUM(valor_servicio) FROM seguimiento;"
+        self.cursor.execute(query)
+        registro = self.cursor.fetchone()
+        return registro
+        
+    def total_recibido_mensual(self):
+        query = "SELECT MONTH(fecha), SUM(valor) FROM seguimiento GROUP BY MONTH(fecha)"
+        self.cursor.execute(query)
+        registros = self.cursor.fetchall()
+        return registros
+    
+    def total_cobrado_mensual(self):
+        query = "SELECT MONTH(fecha), SUM(valor_servicio) FROM seguimiento GROUP BY MONTH(fecha)"
+        self.cursor.execute(query)
+        registros = self.cursor.fetchall()
+        return registros
+        
+    def total_recibido_tipos(self):
+        query = "SELECT tipo_de_servicio, SUM(valor) FROM seguimiento GROUP BY tipo_de_servicio"
+        self.cursor.execute(query)
+        registros = self.cursor.fetchall()
+        return registros
+        
+        
+x = UserManager
+total = x.total_cobrado
+print(total)

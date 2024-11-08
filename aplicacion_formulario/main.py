@@ -5,7 +5,7 @@ from views.tabla_usuarios import Tabla_datos_clientes
 from views.home import Login, app_state
 from views.pagina_principal import Pagina_principal
 from views.registro import Registro
-from views.dashboard import Dashboard_final
+from views.dashboard import Dashboard
 
 def main (page:ft.Page):
     page.title = "Formulario",
@@ -15,7 +15,6 @@ def main (page:ft.Page):
         theme_icon_button.selected = not theme_icon_button.selected
         page.update()
         
-
     theme_icon_button = ft.IconButton(
         ft.icons.DARK_MODE,
         selected=False,
@@ -73,7 +72,7 @@ def main (page:ft.Page):
                 page.views.append(
                     ft.View(
                         "/registro_clientes",
-                    
+            
                         [
                             ft.AppBar(
                             title=ft.Text("Registro de Clientes"),
@@ -103,13 +102,13 @@ def main (page:ft.Page):
                                         )
                                         ]),
                             ]
-                            
+                
                         ),
                             Formulario_para_clientes(page)
                         ]
                     )
                 )
-                
+            
             if page.route ==  "/listado_clientes":
                 page.views.append(
                     ft.View(
@@ -148,8 +147,7 @@ def main (page:ft.Page):
                             Tabla_datos_clientes(page)
                         ]
                     )
-                )
-                    
+                )                    
             if page.route ==  "/registros_diarios":
                     page.views.append(
                         ft.View(
@@ -190,7 +188,7 @@ def main (page:ft.Page):
                                     ]
                             )
                         )
-                        
+        
             if page.route ==  "/dashboard":
                 page.views.append(
                     ft.View(
@@ -222,11 +220,11 @@ def main (page:ft.Page):
                                                         text="Cerrar Sesion",
                                                         #on_click= click_cerrar_sesion
                                                     )
-                                                    ]),
+                                         ]),
                                         ]
                                         
                                     ),
-                                        Dashboard_final(page),
+                                        Dashboard(page),
                                     ]
                                 )
                             )
@@ -240,7 +238,6 @@ def main (page:ft.Page):
                     ]
                 )
             )
-            
             if page.route ==  "/registro":
                 page.views.append(
                     ft.View(
@@ -256,7 +253,6 @@ def main (page:ft.Page):
     #     app_state.cerrar_sesion(e)
     #     page.go("/")
 
-
     def view_pop(view):
         page.views.pop()
         top_view = page.views[-1]
@@ -268,6 +264,6 @@ def main (page:ft.Page):
     page.horizontal_alignment = "center",
     page.theme_mode = "light"
     page.on_view_pop = view_pop  
-    page.go(page.route)      
+    page.go(page.route)     
 
 ft.app(main, view=ft.AppView.WEB_BROWSER)

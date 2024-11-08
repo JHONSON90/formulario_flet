@@ -141,9 +141,7 @@ class Login(ft.UserControl):
             if info:
                     app_state.user = user
                     self.clear_fields()
-                    print("entro y estoy aqui")
                     self.page.go("/home")
-                    print("paso y estoy aqui")
                     print(app_state.user)
                     return True
 
