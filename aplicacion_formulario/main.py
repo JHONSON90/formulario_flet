@@ -24,7 +24,7 @@ def main (page:ft.Page):
         on_click=change_theme,
         style= ft.ButtonStyle(color={"":ft.colors.BLACK, "selected": ft.colors.WHITE})
     )
-
+    
     def route_change(route):
         page.views.clear()
         if app_state.user:
@@ -67,7 +67,7 @@ def main (page:ft.Page):
                         Pagina_principal(page)
                     )
                 )
-            
+        
             if page.route ==  "/registro_clientes":
                 page.views.append(
                     ft.View(

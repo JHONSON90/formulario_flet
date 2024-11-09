@@ -86,8 +86,27 @@ class UserManager():
         self.cursor.execute(query)
         registros = self.cursor.fetchall()
         return registros
+    
+    def minimo_recibido(self):
+        query = "SELECT MIN(valor) FROM seguimiento;"
+        self.cursor.execute(query)
+        registro = self.cursor.fetchone()
+        return registro
+    
+    def maximo_recibido(self):
+        query = "SELECT MAX(valor) FROM seguimiento;"
+        self.cursor.execute(query)
+        registro = self.cursor.fetchone()
+        return registro
         
-        
-x = UserManager
-total = x.total_cobrado
-print(total)
+    def minimo_cobrado(self):
+        query = "SELECT MIN(valor_servicio) FROM seguimiento;"
+        self.cursor.execute(query)
+        registro = self.cursor.fetchone()
+        return registro
+    
+    def maximo_cobrado(self):
+        query = "SELECT MAX(valor_servicio) FROM seguimiento;"
+        self.cursor.execute(query)
+        registro = self.cursor.fetchone()
+        return registro

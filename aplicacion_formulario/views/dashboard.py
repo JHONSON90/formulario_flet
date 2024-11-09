@@ -1,5 +1,8 @@
 import flet as ft
+from flet.plotly_chart import PlotlyChart
 import locale
+import plotly.graph_objects as go
+
 from data.peticiones import UserManager
 
 locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
@@ -25,6 +28,11 @@ class Dashboard(ft.UserControl):
         
         valor1 = self.valor_total()
         valor2 = self.valor_cobrado()
+        fig = self.consolidado_mensual_recibido()
+        fig2 = self.total_por_tipo()
+        maximos = self.maximo()
+        maximos_cobrados = self.get_maximo_cobrado()
+        
 
 #Region: Tarjetas
         self.tarjeta_con_total = ft.Card(
@@ -60,160 +68,89 @@ class Dashboard(ft.UserControl):
                                 )
                             ]               
                         ),
-                    width = 490,
+                    width = 400,
+                    padding=10
+                    ),                            
+                )
+        
+        self.tarjeta_maximo_recibido = ft.Card(
+            content=ft.Container(
+                    content=ft.Column(
+                        controls=[
+                            ft.ListTile(
+                                subtitle = ft.Text("Valor maximo recibido por consignación"),
+                                title = ft.Text(
+                                    locale.currency(maximos, grouping=True),
+                                                size=48,
+                                                weight="bold"
+                                                ),
+                                )
+                            ]               
+                        ),
+                    width = 350,
+                    padding=10
+                    ),                            
+                )
+        
+        self.tarjeta_con_maximo_cobrado = ft.Card(
+            content=ft.Container(
+                    content=ft.Column(
+                        controls=[
+                            ft.ListTile(
+                                subtitle = ft.Text("Maximo Cobrado a un cliente"),
+                                title = ft.Text(
+                                    locale.currency(maximos_cobrados, grouping=True),
+                                                size=48,
+                                                weight="bold"
+                                                ),
+                                )
+                            ]               
+                        ),
+                    width = 350,
                     padding=10
                     ),                            
                 )
     
-        self.seguimiento_mensual = ft.LineChart(
-                    data_series=[
-            ft.LineChartData(
-                data_points=[
-                    ft.LineChartDataPoint(1, 2),
-                    ft.LineChartDataPoint(3, 1.5),
-                    ft.LineChartDataPoint(5, 1.4),
-                    ft.LineChartDataPoint(7, 3.4),
-                    ft.LineChartDataPoint(10, 2),
-                    ft.LineChartDataPoint(12, 2.2),
-                    
-                ],
-                stroke_width=8,
-                color=ft.colors.LIGHT_GREEN,
-                curved=True,
-                stroke_cap_round=True,
-            ),
-            ft.LineChartData(
-                data_points=[
-                    ft.LineChartDataPoint(1, 1),
-                    ft.LineChartDataPoint(3, 2.8),
-                    ft.LineChartDataPoint(5, 1.2),
-                    ft.LineChartDataPoint(7, 2.8),
-                    ft.LineChartDataPoint(10, 2.6),
-                    ft.LineChartDataPoint(12, 3.9),
-                ],
-                color=ft.colors.PINK,
-                below_line_bgcolor=ft.colors.with_opacity(0, ft.colors.PINK),
-                stroke_width=8,
-                curved=True,
-                stroke_cap_round=True,
-            ),
-            ft.LineChartData(
-                data_points=[
-                    ft.LineChartDataPoint(1, 2.8),
-                    ft.LineChartDataPoint(3, 1.9),
-                    ft.LineChartDataPoint(5, 3),
-                    ft.LineChartDataPoint(7, 1.3),
-                    ft.LineChartDataPoint(10, 2.6),
-                    ft.LineChartDataPoint(12, 2.5),
-                ],
-                color=ft.colors.CYAN,
-                stroke_width=8,
-                curved=True,
-                stroke_cap_round=True,
-            ),
-        ],
-                    border=ft.Border(
-                        bottom=ft.BorderSide(4, ft.colors.with_opacity(0.5, ft.colors.ON_SURFACE))
-                    ),
-                    left_axis=ft.ChartAxis(
-                        labels=[
-                            ft.ChartAxisLabel(
-                                value=1,
-                                label=ft.Text("1m", size=14, weight=ft.FontWeight.BOLD),
-                            ),
-                            ft.ChartAxisLabel(
-                                value=2,
-                                label=ft.Text("2m", size=14, weight=ft.FontWeight.BOLD),
-                            ),
-                            ft.ChartAxisLabel(
-                                value=3,
-                                label=ft.Text("3m", size=14, weight=ft.FontWeight.BOLD),
-                            ),
-                            ft.ChartAxisLabel(
-                                value=4,
-                                label=ft.Text("4m", size=14, weight=ft.FontWeight.BOLD),
-                            ),
-                            ft.ChartAxisLabel(
-                                value=5,
-                                label=ft.Text("5m", size=14, weight=ft.FontWeight.BOLD),
-                            ),
-                            ft.ChartAxisLabel(
-                                value=6,
-                                label=ft.Text("6m", size=14, weight=ft.FontWeight.BOLD),
-                            ),
-                        ],
-                        labels_size=40,
-                    ),
-                    bottom_axis=ft.ChartAxis(
-                        labels=[
-                            ft.ChartAxisLabel(
-                                value=2,
-                                label=ft.Container(
-                                    ft.Text(
-                                        "SEP",
-                                        size=16,
-                                        weight=ft.FontWeight.BOLD,
-                                        color=ft.colors.with_opacity(0.5, ft.colors.ON_SURFACE),
-                                    ),
-                                    margin=ft.margin.only(top=10),
-                                ),
-                            ),
-                            ft.ChartAxisLabel(
-                                value=7,
-                                label=ft.Container(
-                                    ft.Text(
-                                        "OCT",
-                                        size=16,
-                                        weight=ft.FontWeight.BOLD,
-                                        color=ft.colors.with_opacity(0.5, ft.colors.ON_SURFACE),
-                                    ),
-                                    margin=ft.margin.only(top=10),
-                                ),
-                            ),
-                            ft.ChartAxisLabel(
-                                value=12,
-                                label=ft.Container(
-                                    ft.Text(
-                                        "DEC",
-                                        size=16,
-                                        weight=ft.FontWeight.BOLD,
-                                        color=ft.colors.with_opacity(0.5, ft.colors.ON_SURFACE),
-                                    ),
-                                    margin=ft.margin.only(top=10),
-                                ),
-                            ),
-                        ],
-                        labels_size=32,
-                    ),
-                    tooltip_bgcolor=ft.colors.with_opacity(0.8, ft.colors.BLUE_GREY),
-                    min_y=0,
-                    max_y=4,
-                    min_x=0,
-                    max_x=14,
-                    # animate=5000,
-                    expand=True,
-                )
+        self.seguimiento_mensual = ft.Container(
+            width = "750",
+            height="450",
+            content= PlotlyChart(fig, 
+                                 expand = True)
+        )
                 
-        self.mayores_clientes = ft.PieChart(
-                    sections=[
-                        self.tipos_de_servicio()
-                        ],
-                    sections_space=0,
-                    center_space_radius=40,
-                    expand=True
-                )
-        
+        self.tipo_de_servicio = ft.Container(
+            width = "750",
+            height= "450",
+            content= PlotlyChart(fig2,
+                                 expand=True)
+        )
+    
         self.content = ft.Container(
                         content=ft.Column(
                             controls=[
                                 ft.Row(
+                                    
+                                    wrap=True,
+                                    spacing=10,
+                                    run_spacing=10,
                                     controls=[
                                         self.tarjeta_con_total,
                                         self.tarjeta_con_total_Recaudado,
+                                        self.tarjeta_con_maximo_cobrado,
+                                        self.tarjeta_maximo_recibido
                                     ]
                                 ),
-                                self.mayores_clientes,
-                                self.seguimiento_mensual
+                                ft.Row(
+                                    wrap=True,
+                                    spacing=5,
+                                    run_spacing=5,
+                                    controls=[
+                                        self.seguimiento_mensual,
+                                        self.tipo_de_servicio
+                                    ]
+                                )
+                                
+                    
                             ]
                         )
                     )
@@ -225,23 +162,111 @@ class Dashboard(ft.UserControl):
     def valor_cobrado(self):
         valor2 = self.data.total_cobrado()
         return valor2[0]*1
+    
+    def maximo(self):
+        valor = self.data.maximo_recibido()
+        return valor[0] * 1
+    
+    def minimo(self):
+        valor = self.data.minimo_recibido()
+        return valor[0] * 1
+    
+    def get_maximo_cobrado(self):
+        valor = self.data.maximo_cobrado()
+        return valor[0] * 1
+    
+    def get_minimo_cobrado(self):
+        valor = self.data.minimo_cobrado()
+        return valor[0] * 1
         
     def consolidado_mensual_recibido(self):
-        self.data.total_recibido_mensual()
+            
+            minimos = self.minimo()
+            maximos = self.maximo()
+            minimos_cobrados = self.get_minimo_cobrado()
+            maximos_cobrados = self.get_maximo_cobrado()
+            fig = go.Figure()
+            
+            for row in self.data.total_recibido_mensual():
+                fig.add_trace(
+                    go.Bar(
+                        x=[int(row[0])], 
+                        y=[int(row[1])],
+                        name= "Seguimiento Mensual",
+                        marker=dict(color='paleturquoise'),
+                        )
+                )
+            
+            for row in self.data.total_cobrado_mensual():
+                fig.add_trace(
+                    go.Scatter(
+                            x=[int(row[0])],
+                            y=[int(row[1])],
+                            yaxis="y2",
+                            mode="lines+markers",
+                            name="Total Cobrado",
+                            marker=dict(color='crimson'),
+                            line=dict(color='crimson')
+                            
+                    )
+                )
+            
+            fig.update_layout(
+                legend= dict(orientation="h"),
+                # width=650,
+                # height=450,
+                xaxis=dict(
+                    tickmode="linear",
+                    dtick=1,  # Mostrar solo valores enteros
+                    title="Mes"
+                ),
+                yaxis=dict(
+                    title=dict(text="Total Recibido"),
+                    side="left",
+                    range=[minimos, maximos], 
+                ),
+                yaxis2=dict(
+                    title=dict(text="Total cobrado a clientes"),
+                    side="right",
+                    range=[minimos_cobrados,maximos_cobrados], 
+                    overlaying="y",
+                    tickmode="sync",
+                ),
+            )
+            return fig
         
-    def consolidado_mensual_cobrado(self):
-        self.data.total_cobrado_mensual()
-        
-    def tipos_de_servicio(self):
-        datossections = []
-        colors= ["RED", "PURPLE", "GREEN", "BLUE", "YELLOW", "INDIGO"]
-        for i, resultado in self.data.total_recibido_tipos():
-            tipo = resultado[0]
-            valor = resultado[1]
-            datossections.append(
-                ft.PieChartSection(valor, title=tipo, color=colors[i], radius= 50)
+    def total_por_tipo(self):
+        fig = go.Figure()
+        for row in self.data.total_recibido_tipos():
+            fig.add_trace(
+                go.Bar(
+                    x=[row[0]],
+                    y=[int(row[1])],
+                    name="Tipo de Servicio",
+                )
             )
         
+        fig.update_layout(
+            legend= dict(orientation="h"),
+            #autosize=True,
+            # minreducedwidth=250,
+            # minreducedheight=250,
+            #width=650,
+            #height=450,
+        # yaxis=dict(
+        #     title=dict(
+        #         text="Y-axis Title",
+        #         font=dict(
+        #             size=30
+        #         )
+        #     ),
+        #     ticktext=[row[0]],
+        #     tickvals=[int(row[1])],
+        #     tickmode="array",
+        # )
+    )
+        return fig
+       
         
     def build(self):
         return self.content
