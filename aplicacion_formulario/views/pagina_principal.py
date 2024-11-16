@@ -1,9 +1,12 @@
 import flet as ft 
+from service.auth import get_name, load_token
 
 class Pagina_principal(ft.Container):
     def __init__(self, page: ft.Page):
         super().__init__(expand=True)
         self.alignment = ft.alignment.center
+        
+        self.current_user_name = get_name(load_token())
         
         self.boton_registro_diario = ft.Container(
             content=ft.TextButton(
@@ -46,9 +49,9 @@ class Pagina_principal(ft.Container):
                 controls=[
                     ft.Container(
                         ft.Text(
-                            "Bienvenido  a la aplicacion /n Que vamos a realizar el dia de hoy?",
+                            f"Bienvenido  {self.current_user_name} Que vamos a realizar el dia de hoy?",
                             width=250,
-                            weight="w900",
+                            weight=900,
                             size=30,
                             text_align="center"
                         ),

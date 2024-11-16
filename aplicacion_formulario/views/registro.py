@@ -1,103 +1,144 @@
 import flet as ft
-import pyrebase
-import datetime
-from functools import partial
-from views.home import auth
+from utils.validation import Validator
+import re
+from service.auth import *
 
 class Registro(ft.UserControl):
     def __init__(self, page: ft.Page):
         super().__init__(expand=True)
+        page.padding = 0
+        self.validator = Validator()
+        self.expand = True
+        self.bgcolor = "#4e73df"
         self.alignment = ft.alignment.center
         
-        self.nombres = ft.Container(
-            content=ft.TextField(
-                label= "Correo Electronico",
-                value="",
-                border="underline",
-                prefix_icon=ft.icons.ACCOUNT_CIRCLE
-                #input_filter=()
-                )
+        self.error_border = ft.border.all(width=1, color="red")
+        
+        self.name_box = ft.Container(
+            content= ft.TextField(
+                border= ft.InputBorder.NONE,
+                content_padding = ft.padding.only(
+                    top=0,bottom=0, right=20, left=20
+                ),
+                hint_style= ft.TextStyle(
+                    size=12,
+                    color="#858796"
+                ),
+                hint_text = "Correo Electronico...",
+                cursor_color = "#858796",
+                text_style = ft.TextStyle(
+                    size=14,
+                    color="black"
+                ),
+            ),
+            border= ft.border.all(width=1, color="#bdcbf4"),
+            border_radius = 20
         )
         
         self.email_box = ft.Container(
-            content=ft.TextField(
-                label= "Correo Electronico",
-                value="",
-                border="underline",
-                prefix_icon=ft.icons.EMAIL
-                #input_filter=()
-                )
+            content= ft.TextField(
+                border= ft.InputBorder.NONE,
+                content_padding = ft.padding.only(
+                    top=0,bottom=0, right=20, left=20
+                ),
+                hint_style= ft.TextStyle(
+                    size=12,
+                    color="#858796"
+                ),
+                hint_text = "Correo Electronico...",
+                cursor_color = "#858796",
+                text_style = ft.TextStyle(
+                    size=14,
+                    color="black"
+                ),
+            ),
+            border= ft.border.all(width=1, color="#bdcbf4"),
+            border_radius = 20
         )
         
-        self.password = ft.Container(
-            content=ft.TextField(
-                label="Contraseña",
-                border="underline",
-                prefix_icon=ft.icons.LOCK,
-                password=True,
-                can_reveal_password=True
-            )
+        self.password_box = ft.Container(
+            content= ft.TextField(
+                border= ft.InputBorder.NONE,
+                content_padding = ft.padding.only(
+                    top=0,bottom=0, right=20, left=20
+                ),
+                hint_style= ft.TextStyle(
+                    size=12,
+                    color="#858796"
+                ),
+                hint_text = "Contraseña...",
+                cursor_color = "#858796",
+                text_style = ft.TextStyle(
+                    size=14,
+                    color="black"
+                ),
+            ),
+            border= ft.border.all(width=1, color="#bdcbf4"),
+            border_radius = 20
         )
         
-        self.password2 = ft.Container(
-            content=ft.TextField(
-                label="Confirmar Contraseña",
-                border="underline",
-                prefix_icon=ft.icons.LOCK,
-                password=True,
-                can_reveal_password=True
-            )
-        )
-        
-               
-        self.registrarse = ft.Container(
-            padding= ft.padding.only(20,20),
-            content=ft.ElevatedButton(
-                "Registrarse",
-                width=280,
-                on_click=partial(self.registro_usuario)
-            )
-        )
-        self.iniciar_sesion = ft.Container(
-            padding= ft.padding.only(20,20),
-            content=ft.ElevatedButton(
-                "Iniciar Sesion",
-                width=280,
-                on_click=lambda _: page.go("/")
-            )
-        )
-        
-        self.form = ft.Container(
-            border_radius=20,
-            width=320,
-            height=500,
-            bgcolor=ft.colors.PURPLE,
-            padding=20,
-            content=ft.Column(
-                alignment=ft.MainAxisAlignment.SPACE_EVENLY,
-                
-                controls=[
-                    ft.Container(
-                        ft.Text(
-                        "Registrarse",
-                        width= 320,
-                        weight="w900",
-                        size=30,
-                        text_align="center",                    
+        self.form = ft.Column(
+            alignment = "center",
+            horizontal_alignment = "center",
+            controls=[
+                ft.Container(
+                    width=500,
+                    border_radius=12,
+                    padding=40,
+                    bgcolor='white',
+                    content= ft.Column(
+                        horizontal_alignment='center',
+                        controls=[
+                            ft.Text(
+                                "Crear una cuenta",
+                                size=16,
+                                color='black',
+                                text_align='center'
                             ),
-                        padding=ft.padding.only(20,20)
-                    ),
-                self.nombres,
-                self.email_box,
-                self.password,
-                self.password2,
-                self.registrarse,
-                self.iniciar_sesion         
-                ]
-                
-            )
-            
-            )
+                            ft.Container(height=0),
+                            
+                            self.name_box,
+                            self.email_box,
+                            self.password_box,
+                            
+                            ft.Container(height=0),
+                            
+                            ft.Container(
+                                alignment=ft.alignment.center,
+                                bgcolor='#4e73df',
+                                height=40,
+                                border_radius=30,
+                                content=ft.Text(
+                                    "Crear Cuenta",
+                                ),
+                                on_click = self.signup
+                            ),
+                            ft.Container(height=0),
+                            
+                            ft.Container(
+                                content=ft.Text(
+                                    "¿Olvidaste tu contraseña?",
+                                    color='#4e73df',
+                                    size=12
+                                ),
+                                on_click=lambda _:  self.page.go('/forgotpassword')
+                            ),
+                            ft.Container(
+                                content=ft.Text(
+                                    "Ya tienes una cuenta? Ir a iniciar sesión",
+                                    color='#4e73df',
+                                    size=12
+                                ),
+                                on_click=lambda _: (
+                                    self.page.go('/login'))
+                            ),
+                            
+                        ]
+                    )
+                    
+                )
+            ]
+        )
         
         
         self.content = self.form
@@ -109,28 +150,39 @@ class Registro(ft.UserControl):
         self.password2.content.value = ""
         self.update()
         
-    def registro_usuario(self, e):
-        email = self.email_box.content.value
-        contraseña = self.password.content.value
-        contraseña2 = self.password2.content.value
-        
-        if len(email) <= 0 and  len(contraseña) <= 0:
-            print("Formulario Vacio")
-            print(len(email), email)
-            print(len(contraseña), contraseña)
-            print(len(contraseña2), contraseña2)
-        elif contraseña != contraseña2:
-            print("Las contraseñas deben ser iguales")
+    def signup(self, e):
+        if not self.validator.validate_name(self.name_box.content.value):
+            self.name_box.border = self.error_border
+            self.name_box.update()
+
+        if not self.validator.is_valid_email(self.email_box.content.value):
+            self.email_box.border = self.error_border
+            self.email_box.update()
+
+        if not self.validator.is_valid_password(self.password_box.content.value):
+            self.password_box.border = self.error_border
+            self.password_box.update()
+
         else:
-            self.clear_fields()   
-            try:
-                auth.create_user_with_email_and_password(
-                    email,
-                    contraseña
-            )
-            except Exception as e:
-                    print(e)
+            name = self.name_box.content.value
+            email = self.email_box.content.value
+            password = self.password_box.content.value
+
+            print(name, email, password)
+            self.page.controls.append(ft.ProgressRing())
+            self.page.update()
+
+            user = create_user(name, email, password)
+            if user:
+                token = login_user(email, password)
+                store_session(token)
+            self.page.controls.remove(self.page.controls[-1])
+            self.page.update()
+            self.page.go('/login')
             
+    def input_on_focus(self, e):
+        e.control.border = ft.border.all(width=1, color='#bdcbf4')
+        e.control.update()
     
     def build(self):
         return self.content

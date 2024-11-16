@@ -1,9 +1,9 @@
-import flet as ft
+import flet as ft 
 from utils.validation import Validator
 import re
-from service.auth import login_user, store_session
+from service.auth import store_session, reset_password
 
-class Login(ft.UserControl):
+class ForgotPassword(ft.UserControl):
     def __init__(self, page: ft.Page):
         super().__init__(expand=True)
         page.padding = 0
@@ -14,6 +14,7 @@ class Login(ft.UserControl):
         
         self.error_border = ft.border.all(width=1, color="red")
         
+               
         self.email_box = ft.Container(
             content= ft.TextField(
                 border= ft.InputBorder.NONE,
@@ -25,27 +26,6 @@ class Login(ft.UserControl):
                     color="#858796"
                 ),
                 hint_text = "Correo Electronico...",
-                cursor_color = "#858796",
-                text_style = ft.TextStyle(
-                    size=14,
-                    color="black"
-                ),
-            ),
-            border= ft.border.all(width=1, color="#bdcbf4"),
-            border_radius = 20
-        )
-        
-        self.password_box = ft.Container(
-            content= ft.TextField(
-                border= ft.InputBorder.NONE,
-                content_padding = ft.padding.only(
-                    top=0,bottom=0, right=20, left=20
-                ),
-                hint_style= ft.TextStyle(
-                    size=12,
-                    color="#858796"
-                ),
-                hint_text = "Contraseña...",
                 cursor_color = "#858796",
                 text_style = ft.TextStyle(
                     size=14,
@@ -69,14 +49,21 @@ class Login(ft.UserControl):
                         horizontal_alignment='center',
                         controls=[
                             ft.Text(
-                                "Bienvenido!!!",
+                                "Olvidaste tu contraseña?",
                                 size=16,
                                 color='black',
                                 text_align='center'
                             ),
+                            ft.Text(
+                                "No te preocupes nosotros enviamos un link para que puedas reestablecerla solo debes colocar tu correo electronico",
+                                size=16,
+                                color='black',
+                                text_align='center'
+                            ),
+                            ft.Container(height=0),
+                            
                             self.email_box,
                             
-                            self.password_box,
                             ft.Container(height=0),
                             
                             ft.Container(
@@ -85,29 +72,28 @@ class Login(ft.UserControl):
                                 height=40,
                                 border_radius=30,
                                 content=ft.Text(
-                                    "Iniciar Sesión",
+                                    "Reestablecer contraseña",
                                 ),
-                                on_click = self.login
+                                on_click = self.reset_password
                             ),
                             ft.Container(height=0),
                             
                             ft.Container(
                                 content=ft.Text(
-                                    "¿Olvidaste tu contraseña?",
+                                    "Crear una cuenta",
                                     color='#4e73df',
                                     size=12
                                 ),
-                                on_click=lambda _: (
-                                    setattr(self.page, 'data', self.email_box.content.value), self.page.go('/forgotpassword'))
+                                on_click=lambda _:  self.page.go('/registro')
                             ),
                             ft.Container(
                                 content=ft.Text(
-                                    "Crear nuevo usuario",
+                                    "Ya tienes una cuenta? Ir a iniciar sesión",
                                     color='#4e73df',
                                     size=12
                                 ),
                                 on_click=lambda _: (
-                                    self.page.go('/registro'))
+                                    self.page.go('/login'))
                             ),
                             
                         ]
@@ -115,44 +101,46 @@ class Login(ft.UserControl):
                     
                 )
             ]
-        )        
+        )
+        
+        
         self.content = self.form
     
     def clear_fields(self):
         self.email_box.content.value = ""
-        self.password.content.value = ""
         self.update()
         
-    def login(self, e):
+    def reset_password(self, e: ft.TapEvent):
         if not self.validator.is_valid_email(self.email_box.content.value):
             self.email_box.border = self.error_border
             self.email_box.update()
 
-        if not self.validator.is_valid_password(self.password_box.content.value):
-            self.password_box.border = self.error_border
-            self.password_box.update()
-
         else:
             email = self.email_box.content.value
-            password = self.password_box.content.value
-
-            self.page.controls.append(ft.ProgressBar()) 
+            self.page.controls.append(ft.ProgressRing) 
             self.page.update()
 
-            token = login_user(email, password)
-            self.page.splash = None
+            user = reset_password(email)
+            self.page.controls.remove(self.page.controls[-1])
             self.page.update()
-            if token:
-                store_session(token)
-                self.page.go('/me')
-            else:
+            if user:
                 self.page.snack_bar = ft.SnackBar(
-                    ft.Text('Invalid credentials')
+                    ft.Text(
+                        'Se ha enviado al correo las indicaciones para reestablecer tu contraseña.')
                 )
                 self.page.snack_bar.open = True
+                self.clear_fields()
                 self.page.update()
-    
+                self.page.go('/login')
+            else:
+                self.page.snack_bar = ft.SnackBar(
+                    ft.Text(
+                        'Correo invalido, Intenta nuevamente')
+                )
+                self.clear_fields()
+                self.page.snack_bar.open = True
+                self.page.update()
+            
     
     def build(self):
         return self.content
-  
