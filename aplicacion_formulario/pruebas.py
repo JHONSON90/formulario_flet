@@ -1,13 +1,150 @@
 import flet as ft
+import pickle
+from views.formulario_cliente import Formulario_para_clientes
+from views.registros_diarios import Formulario_Diario
+from views.tabla_usuarios import Tabla_datos_clientes
+from views.pagina_principal import Pagina_principal
 from views.dashboard import Dashboard
+from views.forgotpassword import ForgotPassword
+from views.registro import Registro
+from views.home import Login
+import service.auth as auth_service
+from views.navbar import navbar
 
-def main (page:ft.Page):
-    page.title = "Formulario",
-    
-    page.add(Dashboard(page))
-    
-    page.vertical_alignment = "center",
-    page.horizontal_alignment = "center",
-    page.theme_mode = "light"    
+class Main(ft.UserControl):
+    def __init__(self, page: ft.Page,):
+        super().__init__()
+        page.padding = 0
+        self.page = page
+        self.init()
+        
+        self.theme_icon_button = ft.IconButton(
+            ft.icons.DARK_MODE,
+            selected=False,
+            selected_icon=ft.icons.LIGHT_MODE,
+            #icon_size=35,
+            tooltip="Cambiar de tema",
+            on_click=self.change_theme,
+            style= ft.ButtonStyle(color={"":ft.colors.BLACK, "selected": ft.colors.WHITE})
+        )
+        
+    def init(self):
+        self.page.on_route_change = self.on_route_change
+        token = self.load_token()
+        
+        if auth_service.authenticate_token(token):
+            self.page.go('/home')
+            
+        else:
+            self.page.go('/login')
+        
+        
+    def on_route_change(self, e: ft.RouteChangeEvent): #1:13
+        def view_pop(view):
+            if len(self.page.views) > 1:
+                self.page.views.pop()
+                top_view = self.page.views[-1]
+                self.page.go(top_view.route)
+                
+        view_pop(self.page.views[-1])
+        
+        public_routes = ["/login", "/signup", "/forgotpassword"]
+        protected_routes = ["/home", "/dashboard", "/listado_clientes", "/registro_clientes", "/registros_diarios"]
 
-ft.app(main, view=ft.AppView.WEB_BROWSER)
+        token = self.load_token
+        is_autenticated = auth_service.authenticate_token(token)
+        
+        if e.route in protected_routes and not is_autenticated:
+            self.page.go('/login')
+            return
+        
+             
+        new_page = {
+            "/login": Login,
+            "/signup": Registro,
+            "/forgotpassword": ForgotPassword,            
+            "/home": Pagina_principal,            
+            "/dashboard": Dashboard,
+            "/listado_clientes":Tabla_datos_clientes,
+            "/registro_clientes": Formulario_para_clientes,
+            "/registros_diarios": Formulario_Diario
+        }[e.route](self.page)
+        
+        print(e.route)
+        
+        self.page.views.clear()
+        if e.route in public_routes or not is_autenticated:
+                self.page.views.append(
+                    ft.View(e.route,
+                        [new_page]
+                        )
+                )
+        else:
+            self.page.views.append(
+                ft.View(e.route,
+                       [ ft.AppBar(
+                            title=ft.Text("Registro de Clientes"),
+                            bgcolor=ft.colors.SURFACE_CONTAINER_HIGHEST,
+                            actions=[
+                                ft.IconButton(ft.icons.HOME,
+                                            tooltip= "Registro Nuevo Cliente",
+                                                on_click=lambda _: self.page.go("/home")),
+                                ft.IconButton(ft.icons.LIST_ROUNDED, 
+                                            tooltip="Listado de Clientes",
+                                            on_click = lambda _: self.page.go("/listado_clientes")),
+                                ft.IconButton(ft.icons.ADD_CIRCLE, 
+                                            tooltip="Crear Registro",
+                                            on_click = lambda _: self.page.go("/registros_diarios")),
+                                ft.IconButton(ft.icons.DASHBOARD,
+                                            tooltip="Dashboard",
+                                            on_click = lambda _: self.page.go("/dashboard")),
+                                self.theme_icon_button,
+                                ft.PopupMenuButton(
+                                    items=[
+                                        ft.PopupMenuItem(
+                                            text="Ajustes"
+                                        ),
+                                        ft.PopupMenuItem(
+                                            text="Cerrar Sesion",
+                                            on_click= lambda _: (auth_service.revoke_token(
+                                                self.load_token()), self.page.go('/login')),
+                                        ),
+                                        ]),
+                            ]
+                            
+                        ),
+                       ],
+                    new_page
+                    )
+                )
+        
+        self.page.update()
+        
+    def load_token(self):
+        try:
+            with open('token.pickle', "rb") as f:
+                token = pickle.load(f)
+                return token
+        except Exception as e:
+            print(f"este es el error al cargar el token {e}")
+            return None
+        
+           
+    def change_theme(e, self):
+        self.page.theme_mode = "light" if self.page.theme_mode == "dark"  else "dark"
+        self.theme_icon_button.selected = not self.theme_icon_button.selected
+        self.page.update()
+        
+    
+
+ft.app(target = Main, view=ft.AppView.WEB_BROWSER)
+
+# def main(page: ft.Page):
+#     page.title = "contador de prueba"
+#     page.alignment = "center"
+#     page.vertical_alignment= ft.MainAxisAlignment.CENTER # alineamos 
+#     page.add(
+#             Pagina_principal(page)
+#         )
+
+# ft.app(main)

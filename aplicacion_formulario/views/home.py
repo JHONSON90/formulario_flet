@@ -1,7 +1,7 @@
 import flet as ft
 from utils.validation import Validator
 import re
-from service.auth import login_user, store_session
+import service.auth as auth_service
 
 class Login(ft.UserControl):
     def __init__(self, page: ft.Page):
@@ -37,6 +37,9 @@ class Login(ft.UserControl):
         
         self.password_box = ft.Container(
             content= ft.TextField(
+                
+                password=True,
+                can_reveal_password=True,
                 border= ft.InputBorder.NONE,
                 content_padding = ft.padding.only(
                     top=0,bottom=0, right=20, left=20
@@ -107,7 +110,7 @@ class Login(ft.UserControl):
                                     size=12
                                 ),
                                 on_click=lambda _: (
-                                    self.page.go('/registro'))
+                                    self.page.go('/signup'))
                             ),
                             
                         ]
@@ -135,21 +138,24 @@ class Login(ft.UserControl):
         else:
             email = self.email_box.content.value
             password = self.password_box.content.value
-
+            
+            print(f"esto es del else email {email} y la contraseña es {password}")    
             self.page.controls.append(ft.ProgressBar()) 
             self.page.update()
 
-            token = login_user(email, password)
-            self.page.splash = None
+            token = auth_service.login_user(email, password)
+            self.page.controls.remove(self.page.controls[-1])
             self.page.update()
             if token:
-                store_session(token)
-                self.page.go('/me')
+                print(f"este es el token {token}")
+                auth_service.store_session(token)
+                self.page.go('/home')
             else:
-                self.page.snack_bar = ft.SnackBar(
-                    ft.Text('Invalid credentials')
+                self.page.overlay.append(ft.SnackBar(
+                    ft.Text('Datos incorrectos'),
+                    open= True
+                    )
                 )
-                self.page.snack_bar.open = True
                 self.page.update()
     
     

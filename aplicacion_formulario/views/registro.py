@@ -1,7 +1,7 @@
 import flet as ft
 from utils.validation import Validator
 import re
-from service.auth import *
+import service.auth as auth
 
 class Registro(ft.UserControl):
     def __init__(self, page: ft.Page):
@@ -24,7 +24,7 @@ class Registro(ft.UserControl):
                     size=12,
                     color="#858796"
                 ),
-                hint_text = "Correo Electronico...",
+                hint_text = "Nombres y Apellidos",
                 cursor_color = "#858796",
                 text_style = ft.TextStyle(
                     size=14,
@@ -172,10 +172,10 @@ class Registro(ft.UserControl):
             self.page.controls.append(ft.ProgressRing())
             self.page.update()
 
-            user = create_user(name, email, password)
+            user = auth.create_user(name, email, password)
             if user:
-                token = login_user(email, password)
-                store_session(token)
+                token = auth.login_user(email, password)
+                auth.store_session(token)
             self.page.controls.remove(self.page.controls[-1])
             self.page.update()
             self.page.go('/login')

@@ -1,8 +1,7 @@
 import flet as ft 
 from utils.validation import Validator
 import re
-from service.auth import store_session, reset_password
-
+import service.auth  as auth_service
 class ForgotPassword(ft.UserControl):
     def __init__(self, page: ft.Page):
         super().__init__(expand=True)
@@ -113,32 +112,37 @@ class ForgotPassword(ft.UserControl):
     def reset_password(self, e: ft.TapEvent):
         if not self.validator.is_valid_email(self.email_box.content.value):
             self.email_box.border = self.error_border
+            print("entro en el if not del validador del correo")
             self.email_box.update()
 
         else:
             email = self.email_box.content.value
-            self.page.controls.append(ft.ProgressRing) 
+            print(f"soy el email del else {email}")
+            self.page.controls.append(ft.ProgressRing()) 
             self.page.update()
 
-            user = reset_password(email)
+            user = auth_service.reset_password(email)
+            print(user)
             self.page.controls.remove(self.page.controls[-1])
             self.page.update()
             if user:
-                self.page.snack_bar = ft.SnackBar(
+                self.page.overlay.append(ft.SnackBar(
                     ft.Text(
-                        'Se ha enviado al correo las indicaciones para reestablecer tu contraseña.')
+                        'Se ha enviado al correo las indicaciones para reestablecer tu contraseña.'),
+                        open = True
+                    )
                 )
-                self.page.snack_bar.open = True
                 self.clear_fields()
                 self.page.update()
                 self.page.go('/login')
             else:
-                self.page.snack_bar = ft.SnackBar(
+                self.page.overlay.append(ft.SnackBar(
                     ft.Text(
-                        'Correo invalido, Intenta nuevamente')
+                        'Correo invalido, Intenta nuevamente'), 
+                    open=True
+                    )
                 )
                 self.clear_fields()
-                self.page.snack_bar.open = True
                 self.page.update()
             
     
