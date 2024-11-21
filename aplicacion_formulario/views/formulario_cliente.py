@@ -10,44 +10,110 @@ class Formulario_para_clientes(ft.UserControl):
         
 #region=: TEXT FIELDS DE LOS 4  CAMPOS
 
-        self.idClientes = ft.TextField(value="",
-                                 label="Identificacion",
-                                 #border_color="white",
-                                 input_filter=ft.NumbersOnlyInputFilter(),
-                                 )
+        self.idClientes = ft.Container(
+            content= ft.TextField(
+                border= ft.InputBorder.NONE,
+                content_padding= ft.padding.only(
+                    top=0, bottom=0, right=20, left=20
+                ),
+                hint_style= ft.TextStyle(
+                    size=12,
+                    color="#858796"
+                ),
+                hint_text="Identificacion",
+                cursor_color="#858796",
+                text_style= ft.TextStyle(
+                    size=14,
+                    color="black",
+                ),
+                input_filter=ft.NumbersOnlyInputFilter(),
+            ),
+            border= ft.border.all(width=1, color="#bdcbf4"),
+            border_radius = 20
+        )
         
-        self.nombres = ft.TextField(value="",
-                                 label="Nombres",
-                                 #border_color="white"
-                                 )
         
-        self.telefono = ft.TextField(value="",
-                                 label="Telefono",
-                                 #border_color="white",
-                                 input_filter=ft.NumbersOnlyInputFilter()
-                                 )
         
-        self.correo = ft.TextField(value="",
-                                 label="Correo",
-                                 #border_color="white"
-                                 )
+        self.nombres = ft.Container(
+            content= ft.TextField(
+                border= ft.InputBorder.NONE,
+                content_padding= ft.padding.only(
+                    top=0, bottom=0, right=20, left=20
+                ),
+                hint_style= ft.TextStyle(
+                    size=12,
+                    color="#858796"
+                ),
+                hint_text="Nombres",
+                cursor_color="#858796",
+                text_style= ft.TextStyle(
+                    size=14,
+                    color="black",
+                ),
+            ),
+            border= ft.border.all(width=1, color="#bdcbf4"),
+            border_radius = 20
+        )
+        
+        self.telefono = ft.Container(
+            content= ft.TextField(
+                border= ft.InputBorder.NONE,
+                content_padding= ft.padding.only(
+                    top=0, bottom=0, right=20, left=20
+                ),
+                hint_style= ft.TextStyle(
+                    size=12,
+                    color="#858796"
+                ),
+                hint_text="Telefono",
+                cursor_color="#858796",
+                text_style= ft.TextStyle(
+                    size=14,
+                    color="black",
+                ),
+                input_filter=ft.NumbersOnlyInputFilter(),
+            ),
+            border= ft.border.all(width=1, color="#bdcbf4"),
+            border_radius = 20
+        )
+        
+        self.correo = ft.Container(
+            content= ft.TextField(
+                border= ft.InputBorder.NONE,
+                content_padding= ft.padding.only(
+                    top=0, bottom=0, right=20, left=20
+                ),
+                hint_style= ft.TextStyle(
+                    size=12,
+                    color="#858796"
+                ),
+                hint_text="Correo Electronico",
+                cursor_color="#858796",
+                text_style= ft.TextStyle(
+                    size=14,
+                    color="black",
+                ),
+            ),
+            border= ft.border.all(width=1, color="#bdcbf4"),
+            border_radius = 20
+        )
         
         self.form = ft.Column(
-            alignment= ft.MainAxisAlignment.CENTER,
-            horizontal_alignment= ft.CrossAxisAlignment.CENTER,
+            alignment= "center",
+            horizontal_alignment= "center",
             controls=[
                 ft.Container(
                     width=500,
                     border_radius=12,
                     padding= 40,
-                    #bgcolor="gray",
+                    bgcolor="white",
                     content= ft.Column(
                         horizontal_alignment="center",
                         controls=[
                             ft.Text(
                                 "Registro de Clientes",
                                 size=16,
-                                #color="white",
+                                color="black",
                                 text_align="center"
                             ),
                     
@@ -55,62 +121,69 @@ class Formulario_para_clientes(ft.UserControl):
                     self.nombres,
                     self.telefono,
                     self.correo,
+                    ft.Container(height=0),
                     ft.Container(
-                        content=ft.Row(
-                            alignment=ft.MainAxisAlignment.CENTER,
-                            vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                            controls=[
-                                ft.TextButton(
-                                    text="Guardar",
-                                    icon=ft.icons.SAVE,
-                                    # style=ft.ButtonStyle(
-                                    #     color="white",
-                                    # ),
-                                    on_click=self.add_data
+                        alignment=ft.alignment.center,
+                                bgcolor='#4e73df',
+                                height=40,
+                                border_radius=30,
+                                content=ft.Text(
+                                    "Guardar Cliente",
+                                    ),
+                                on_click=self.add_data
                                 ),
-                                ft.TextButton(
-                                    text="Listado de clientes",
-                                    icon=ft.icons.LIST,
-                                    #style=ft.ButtonStyle(color="white"),
-                                    on_click=lambda _: self.page.go("/listado_clientes")
-                                                                    
+                    ft.Container(height=0),
+                    
+                    ft.Container(
+                                content=ft.Text(
+                                    "Ir a listado de usuarios",
+                                    color='#4e73df',
+                                    size=12
+                                ),
+                                on_click=lambda _: (
+                                    self.page.go('/listado_clientes'))
+                            ),
+                        ]    
                                 )
+                )
                             ]
                         )
-                    )
-                ]
-            )
-        )
-            ]
-        ) 
               
         self.content = self.form
     
     def add_data(self, e):
-        idClientes = self.idClientes.value
-        nombres = self.nombres.value
-        telefono = self.telefono.value
-        correo = self.correo.value
+        idClientes = self.idClientes.content.value
+        nombres = self.nombres.content.value
+        telefono = self.telefono.content.value
+        correo = self.correo.content.value
         
         if idClientes != "" and nombres !=  "" and telefono != "" and correo != "":
-            user_exist= False
+            user_exist = False
+            
             for row in self.data.get_users():
                 if row[0] == idClientes:
                     user_exist = True
-                    print("usuario ya existe")
-                    break
-                if not user_exist:
-                    print("estoy aqui pero no estoy haciendo nada")
-                    self.clean_fields()
-                    self.data.add_users(idClientes,nombres,telefono, correo),
-                    print("usuario creado")
-                    
+            
+            if user_exist:
+                self.clean_fields()
+                self.page.overlay.append(ft.SnackBar(ft.Text("El cliente ya existe"), open= True))
+            else:
+                self.clean_fields()
+                success = self.data.add_users(idClientes, nombres, telefono, correo)
+                if success:
+                    self.page.overlay.append(ft.SnackBar(ft.Text("Cliente agregado exitosamente"), open=True))
+                else:
+                    self.page.overlay.append(ft.SnackBar(ft.Text("Error al agregar cliente"), open=True))
+            self.page.update()
+        else:
+            self.page.overlay.append(ft.SnackBar(ft.Text("Por favor complete todos los campos"), open=True))
+        self.page.update()
     
     def clean_fields(self):
-        self.idClientes.value = ""
-        self.nombres.value = ""
-        self.telefono.value = ""
-        self.correo.value = ""
+        self.idClientes.content.value = ""
+        self.nombres.content.value = ""
+        self.telefono.content.value = ""
+        self.correo.content.value = ""
         self.update()
     
            

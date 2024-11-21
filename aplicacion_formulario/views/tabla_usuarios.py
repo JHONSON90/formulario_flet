@@ -37,6 +37,8 @@ class Tabla_datos_clientes(ft.UserControl):
                 
                 ft.DataColumn(ft.Text("Correo Electronico", weight="bold")),
                 
+                ft.DataColumn(ft.Text("Admon", weight="bold")),
+                
             ]
         )
         
@@ -57,10 +59,11 @@ class Tabla_datos_clientes(ft.UserControl):
                         content=ft.Row(
                             scroll="always",
                             controls=[
-                                self.search_filed,                                
+                                self.search_filed,   
                             ]
                         )
                     ),
+                    ft.Container(height=0),
                     ft.Column(
                         expand=True,
                         scroll="auto",
@@ -90,6 +93,7 @@ class Tabla_datos_clientes(ft.UserControl):
                         ft.DataCell(ft.Text(x[1])),
                         ft.DataCell(ft.Text(str(x[2]))),
                         ft.DataCell(ft.Text(x[3])),
+                        ft.DataCell(ft.ElevatedButton(ft.Icon(ft.icons.DELETE_OUTLINE_OUTLINED)))
                     ]
                 )
             )

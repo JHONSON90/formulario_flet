@@ -37,7 +37,8 @@ class Login(ft.UserControl):
         
         self.password_box = ft.Container(
             content= ft.TextField(
-                
+                text_align=ft.alignment.center,
+                adaptive=True,
                 password=True,
                 can_reveal_password=True,
                 border= ft.InputBorder.NONE,
@@ -60,8 +61,8 @@ class Login(ft.UserControl):
         )
         
         self.form = ft.Column(
-            alignment = "center",
-            horizontal_alignment = "center",
+            alignment = ft.MainAxisAlignment.CENTER,
+            horizontal_alignment = ft.CrossAxisAlignment.CENTER,
             controls=[
                 ft.Container(
                     width=500,
@@ -137,9 +138,7 @@ class Login(ft.UserControl):
 
         else:
             email = self.email_box.content.value
-            password = self.password_box.content.value
-            
-            print(f"esto es del else email {email} y la contraseña es {password}")    
+            password = self.password_box.content.value   
             self.page.controls.append(ft.ProgressBar()) 
             self.page.update()
 
@@ -147,7 +146,6 @@ class Login(ft.UserControl):
             self.page.controls.remove(self.page.controls[-1])
             self.page.update()
             if token:
-                print(f"este es el token {token}")
                 auth_service.store_session(token)
                 self.page.go('/home')
             else:

@@ -64,8 +64,9 @@ def load_token():
         with open('token.pickle', 'rb') as f:
             token = pickle.load(f)
         return token
-    except:
-        return None
+    except Exception as e:
+            print(f"este es el error al cargar el token {e}")
+            return None
 
 
 def authenticate_token(token):

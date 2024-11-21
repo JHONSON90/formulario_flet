@@ -14,8 +14,13 @@ class UserManager():
         valores =  [idClientes, nombres, telefono, correo]
         
         query = f"INSERT INTO {tabla} ({','.join(campos)}) VALUES (%s,%s,%s,%s)"
-        self.cursor.execute(query, valores)
-        self.mydb.commit()
+        try:
+            self.cursor.execute(query, valores)
+            self.mydb.commit()
+            return True
+        except Exception as e:
+            print(f"Error: {e}")
+            return False
     
     def get_users(self):
         self.cursor.execute("SELECT * FROM  clientes")

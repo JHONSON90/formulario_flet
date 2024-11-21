@@ -15,29 +15,34 @@ class Main(ft.UserControl):
     def __init__(self, page: ft.Page,):
         super().__init__()
         page.padding = 0
+        
+        page.horizontal_alignment = ft.MainAxisAlignment.CENTER,
+        page.vertical_alignment = ft.CrossAxisAlignment.CENTER,
+        page.theme_mode = "light"
+        
         self.page = page
         self.init()
+        self.alignment = ft.alignment.center
         
-        self.theme_icon_button = ft.IconButton(
-            ft.icons.DARK_MODE,
-            selected=False,
-            selected_icon=ft.icons.LIGHT_MODE,
-            #icon_size=35,
-            tooltip="Cambiar de tema",
-            on_click=self.change_theme,
-            style= ft.ButtonStyle(color={"":ft.colors.BLACK, "selected": ft.colors.WHITE})
-        )
+        
+        # self.theme_icon_button = ft.IconButton(
+        #     ft.icons.DARK_MODE,
+        #     selected=False,
+        #     selected_icon=ft.icons.LIGHT_MODE,
+        #     #icon_size=35,
+        #     tooltip="Cambiar de tema",
+        #     on_click=self.change_theme,
+        #     style= ft.ButtonStyle(color={"":ft.colors.BLACK, "selected": ft.colors.WHITE})
+        # )
         
     def init(self):
         self.page.on_route_change = self.on_route_change
-        token = self.load_token()
+        token = auth_service.load_token()
         
         if auth_service.authenticate_token(token):
-            self.page.go('/home')
-            
+            self.page.go('/home')            
         else:
-            self.page.go('/login')
-        
+            self.page.go('/login')        
         
     def on_route_change(self, e: ft.RouteChangeEvent): #1:13
         def view_pop(view):
@@ -51,10 +56,11 @@ class Main(ft.UserControl):
         public_routes = ["/login", "/signup", "/forgotpassword"]
         protected_routes = ["/home", "/dashboard", "/listado_clientes", "/registro_clientes", "/registros_diarios"]
 
-        token = self.load_token
+        token = auth_service.load_token()
         is_autenticated = auth_service.authenticate_token(token)
         
         if e.route in protected_routes and not is_autenticated:
+            print("acceso denegado: redirigiendo al login.")
             self.page.go('/login')
             return
         
@@ -70,11 +76,9 @@ class Main(ft.UserControl):
             "/registros_diarios": Formulario_Diario
         }[e.route](self.page)
         
-        print(e.route)
-        
         self.page.views.clear()
-        if e.route in public_routes or not is_autenticated:
-                self.page.views.append(
+        if e.route in public_routes:
+            self.page.views.append(
                     ft.View(e.route,
                         [new_page]
                         )
@@ -83,12 +87,16 @@ class Main(ft.UserControl):
             self.page.views.append(
                 ft.View(e.route,
                        [ ft.AppBar(
-                            title=ft.Text("Registro de Clientes"),
+                            title=ft.Text(auth_service.get_name(token)),
                             bgcolor=ft.colors.SURFACE_CONTAINER_HIGHEST,
                             actions=[
                                 ft.IconButton(ft.icons.HOME,
                                             tooltip= "Registro Nuevo Cliente",
                                                 on_click=lambda _: self.page.go("/home")),
+                                ft.IconButton(ft.icons.ASSIGNMENT_IND,
+                                        tooltip= "Registro Nuevo Cliente",
+                                            on_click=lambda _: self.page.go("/registro_clientes")),
+                                
                                 ft.IconButton(ft.icons.LIST_ROUNDED, 
                                             tooltip="Listado de Clientes",
                                             on_click = lambda _: self.page.go("/listado_clientes")),
@@ -98,7 +106,7 @@ class Main(ft.UserControl):
                                 ft.IconButton(ft.icons.DASHBOARD,
                                             tooltip="Dashboard",
                                             on_click = lambda _: self.page.go("/dashboard")),
-                                self.theme_icon_button,
+                                #self.theme_icon_button,
                                 ft.PopupMenuButton(
                                     items=[
                                         ft.PopupMenuItem(
@@ -107,7 +115,7 @@ class Main(ft.UserControl):
                                         ft.PopupMenuItem(
                                             text="Cerrar Sesion",
                                             on_click= lambda _: (auth_service.revoke_token(
-                                                self.load_token()), self.page.go('/login')),
+                                                auth_service.load_token()), self.page.go('/login')),
                                         ),
                                         ]),
                             ]
@@ -117,23 +125,13 @@ class Main(ft.UserControl):
                     new_page
                     )
                 )
-        
         self.page.update()
-        
-    def load_token(self):
-        try:
-            with open('token.pickle', "rb") as f:
-                token = pickle.load(f)
-                return token
-        except Exception as e:
-            print(f"este es el error al cargar el token {e}")
-            return None
-        
-           
-    def change_theme(e, self):
-        self.page.theme_mode = "light" if self.page.theme_mode == "dark"  else "dark"
-        self.theme_icon_button.selected = not self.theme_icon_button.selected
-        self.page.update()
+            
+    # def change_theme(e, self):
+    #     self.page.theme_mode = "light" if self.page.theme_mode == "dark"  else "dark"
+    #     self.theme_icon_button.selected = not self.theme_icon_button.selected
+    #     self.page.update()
+    
         
     
 
