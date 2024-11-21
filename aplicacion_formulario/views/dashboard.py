@@ -23,8 +23,11 @@ class Dashboard(ft.UserControl):
     def __init__(self, page):
         super().__init__(expand=True)
         self.page = page
+        page.bgcolor = ft.colors.INDIGO_50
         self.data = UserManager()
         self.alignment = ft.alignment.center
+        
+    
         
         valor1 = self.valor_total()
         valor2 = self.valor_cobrado()
@@ -36,15 +39,17 @@ class Dashboard(ft.UserControl):
 
 #Region: Tarjetas
         self.tarjeta_con_total = ft.Card(
+            color="#bdcbf4",   #858796",
             content=ft.Container(
                     content=ft.Column(
                         controls=[
                             ft.ListTile(
-                                subtitle = ft.Text("Valor Total Recibido"),
+                                subtitle = ft.Text("Valor Total Recibido",color='#4e73df',),
                                 title = ft.Text(
-                                    locale.currency(valor1, grouping=True),
+                                  locale.currency(valor1, grouping=True),
                                                 size=48,
-                                                weight="bold"
+                                                weight="bold",
+                                                color='white',
                                                 )
                                 )
                             ]               
@@ -55,15 +60,17 @@ class Dashboard(ft.UserControl):
                 )
         
         self.tarjeta_con_total_Recaudado = ft.Card(
+            color="#bdcbf4",   #858796",
             content=ft.Container(
                     content=ft.Column(
                         controls=[
                             ft.ListTile(
-                                subtitle = ft.Text("Valor Total Cobrado"),
+                                subtitle = ft.Text("Valor Total Cobrado",color='#4e73df',),
                                 title = ft.Text(
-                                    locale.currency(valor2, grouping=True),
+                                  locale.currency(valor2, grouping=True),
                                                 size=48,
-                                                weight="bold"
+                                                weight="bold",
+                                                color='white',
                                                 ),
                                 )
                             ]               
@@ -74,15 +81,17 @@ class Dashboard(ft.UserControl):
                 )
         
         self.tarjeta_maximo_recibido = ft.Card(
+            color="#bdcbf4",   #858796",
             content=ft.Container(
                     content=ft.Column(
                         controls=[
                             ft.ListTile(
-                                subtitle = ft.Text("Valor maximo recibido por consignación"),
+                                subtitle = ft.Text("Valor maximo recibido por consignación",color='#4e73df',),
                                 title = ft.Text(
-                                    locale.currency(maximos, grouping=True),
+                                  locale.currency(maximos, grouping=True),
                                                 size=48,
-                                                weight="bold"
+                                                weight="bold",
+                                                color='white',
                                                 ),
                                 )
                             ]               
@@ -93,15 +102,17 @@ class Dashboard(ft.UserControl):
                 )
         
         self.tarjeta_con_maximo_cobrado = ft.Card(
+            color="#bdcbf4",   #858796",
             content=ft.Container(
                     content=ft.Column(
                         controls=[
                             ft.ListTile(
-                                subtitle = ft.Text("Maximo Cobrado a un cliente"),
+                                subtitle = ft.Text("Maximo Cobrado a un cliente",color='#4e73df',),
                                 title = ft.Text(
-                                    locale.currency(maximos_cobrados, grouping=True),
+                                  locale.currency(maximos_cobrados, grouping=True),
                                                 size=48,
-                                                weight="bold"
+                                                weight="bold",
+                                                color='white',
                                                 ),
                                 )
                             ]               

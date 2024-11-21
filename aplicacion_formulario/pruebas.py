@@ -14,15 +14,16 @@ from views.navbar import navbar
 class Main(ft.UserControl):
     def __init__(self, page: ft.Page,):
         super().__init__()
-        page.padding = 0
-        
-        page.horizontal_alignment = ft.MainAxisAlignment.CENTER,
-        page.vertical_alignment = ft.CrossAxisAlignment.CENTER,
-        page.theme_mode = "light"
-        
         self.page = page
-        self.init()
+        page.padding = 0
+        page.bgcolor = ft.colors.INDIGO_50
+        page.scroll = "auto"
+        page.horizontal_alignment = "center",
+        page.vertical_alignment = "center"
+        page.theme_mode = "light"
         self.alignment = ft.alignment.center
+        
+        self.init()
         
         
         # self.theme_icon_button = ft.IconButton(
@@ -80,7 +81,10 @@ class Main(ft.UserControl):
         if e.route in public_routes:
             self.page.views.append(
                     ft.View(e.route,
-                        [new_page]
+                        [new_page],
+                        bgcolor=ft.colors.INDIGO_50,
+                        vertical_alignment="center",
+                        horizontal_alignment="center"
                         )
                 )
         else:
@@ -121,8 +125,11 @@ class Main(ft.UserControl):
                             ]
                             
                         ),
+                        new_page
                        ],
-                    new_page
+                       bgcolor=ft.colors.INDIGO_50,
+                       vertical_alignment="center",
+                       horizontal_alignment="center",
                     )
                 )
         self.page.update()
@@ -139,10 +146,12 @@ ft.app(target = Main, view=ft.AppView.WEB_BROWSER)
 
 # def main(page: ft.Page):
 #     page.title = "contador de prueba"
+#     page.scroll = "auto"
 #     page.alignment = "center"
+#     page.theme_mode  = "LIGHT"
 #     page.vertical_alignment= ft.MainAxisAlignment.CENTER # alineamos 
 #     page.add(
-#             Pagina_principal(page)
+#             Dashboard(page)
 #         )
 
 # ft.app(main)

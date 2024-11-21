@@ -5,6 +5,7 @@ class Tabla_datos_clientes(ft.UserControl):
     def __init__(self, page):
         super().__init__(expand=True)
         self.page = page
+        page.bgcolor = ft.colors.INDIGO_50
         self.data = UserManager()
         self.selected_row = None
         
@@ -21,24 +22,20 @@ class Tabla_datos_clientes(ft.UserControl):
         
         self.data_table = ft.DataTable(
             expand=True,
-            border=ft.border.all(2),
+            border=ft.border.all(2, color="#858796"),
             border_radius=10,
+            column_spacing=30,
+            
             show_checkbox_column=True,
             # data_row_color={
             #     ft.ControlState.SELECTED:"gray",
             #     ft.ControlState.PRESSED:"gray"
             # },
             columns=[
-                ft.DataColumn(ft.Text("Identificacion", weight="bold"),                             
-                              numeric=True),
+                ft.DataColumn(ft.Text("Identificacion", weight="bold"),                        numeric=True),
                 ft.DataColumn(ft.Text("Nombres y Apellidos", weight="bold")),
-                
                 ft.DataColumn(ft.Text("Telefono", weight="bold"), numeric=True),
-                
                 ft.DataColumn(ft.Text("Correo Electronico", weight="bold")),
-                
-                ft.DataColumn(ft.Text("Admon", weight="bold")),
-                
             ]
         )
         
@@ -46,10 +43,10 @@ class Tabla_datos_clientes(ft.UserControl):
         
         
         self.table =  ft.Container(
-            #bgcolor="#222222",
+            #bgcolor="#858796",
             border_radius=10,
             padding=10,
-            col=8,
+            col=5,
             
             content=ft.Column(
                 expand=True,
@@ -93,7 +90,6 @@ class Tabla_datos_clientes(ft.UserControl):
                         ft.DataCell(ft.Text(x[1])),
                         ft.DataCell(ft.Text(str(x[2]))),
                         ft.DataCell(ft.Text(x[3])),
-                        ft.DataCell(ft.ElevatedButton(ft.Icon(ft.icons.DELETE_OUTLINE_OUTLINED)))
                     ]
                 )
             )

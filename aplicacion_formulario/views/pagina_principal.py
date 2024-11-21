@@ -5,6 +5,9 @@ from service.auth import get_name, load_token, revoke_token
 class Pagina_principal(ft.Container):
     def __init__(self, page: ft.Page):
         super().__init__(expand=True)
+        page.bgcolor = ft.colors.INDIGO_50
+        page.horizontal_alignment = ft.MainAxisAlignment.CENTER,
+        page.vertical_alignment = ft.CrossAxisAlignment.CENTER,
         self.alignment = ft.alignment.center
         
         self.current_user_name = get_name(load_token())
