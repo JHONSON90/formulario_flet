@@ -23,6 +23,7 @@ class Dashboard(ft.UserControl):
     def __init__(self, page):
         super().__init__(expand=True)
         self.page = page
+        page.scroll = "always"
         page.bgcolor = ft.colors.INDIGO_50
         self.data = UserManager()
         self.alignment = ft.alignment.center

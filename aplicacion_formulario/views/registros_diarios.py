@@ -14,7 +14,7 @@ class Formulario_Diario(ft.UserControl):
         
         self.idClientes = ft.Container(
             content=ft.TextField(
-                border_color=ft.InputBorder.NONE,
+                border=ft.InputBorder.NONE,
                 content_padding=ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
@@ -38,7 +38,7 @@ class Formulario_Diario(ft.UserControl):
         
         self.nombres = ft.Container(
             content=ft.TextField(
-                border_color=ft.InputBorder.NONE,
+                border=ft.InputBorder.NONE,
                 content_padding=ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
@@ -61,7 +61,7 @@ class Formulario_Diario(ft.UserControl):
         
         self.usuario_final = ft.Container(
             content=ft.TextField(
-                border_color=ft.InputBorder.NONE,
+                border=ft.InputBorder.NONE,
                 content_padding=ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
@@ -82,7 +82,7 @@ class Formulario_Diario(ft.UserControl):
         
         self.tipo_de_servicio = ft.Container(
             content=ft.TextField(
-                border_color=ft.InputBorder.NONE,
+                border=ft.InputBorder.NONE,
                 content_padding=ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
@@ -103,7 +103,7 @@ class Formulario_Diario(ft.UserControl):
         
         self.valor = ft.Container(
             content=ft.TextField(
-                border_color=ft.InputBorder.NONE,
+                border=ft.InputBorder.NONE,
                 content_padding=ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),
@@ -125,7 +125,7 @@ class Formulario_Diario(ft.UserControl):
         
         self.valor_del_servicio = ft.Container(
             content=ft.TextField(
-                border_color=ft.InputBorder.NONE,
+                border=ft.InputBorder.NONE,
                 content_padding=ft.padding.only(
                     top=0, bottom=0, right=20, left=20
                 ),

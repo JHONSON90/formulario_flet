@@ -69,7 +69,9 @@ class UserManager():
         return registro
     
     def total_cobrado(self):
-        query = "SELECT SUM(valor_servicio) FROM seguimiento;"
+        query = "SELECT SUM(valor_servicio) FROM seguimiento;" 
+        
+        # SELECT TOTAL_SS FROM total_servicios
         self.cursor.execute(query)
         registro = self.cursor.fetchone()
         return registro

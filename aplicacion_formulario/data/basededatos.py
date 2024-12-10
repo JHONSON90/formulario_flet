@@ -4,10 +4,10 @@ import os
 try:
     def connect_to_db():
         db = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password=os.getenv('PASSWORD_MYSQL'),
-            database="formulario"
+            host="bhete2uv4pcbvdjlidml-mysql.services.clever-cloud.com",
+            user="uh29qkzfhxeuyu2k",
+            password=os.getenv('PASSWORD_CLEVER_CLOUD'),
+            database="bhete2uv4pcbvdjlidml"
         )
         return db
 except:

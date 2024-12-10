@@ -15,9 +15,11 @@ class Main(ft.UserControl):
     def __init__(self, page: ft.Page,):
         super().__init__()
         self.page = page
+        page.title = "Registro Transacciones"
+        page.favicon = "assets/favicon.png"
         page.padding = 0
         page.bgcolor = ft.colors.INDIGO_50
-        page.scroll = "auto"
+        page.scroll = "always"
         page.horizontal_alignment = "center",
         page.vertical_alignment = "center"
         page.theme_mode = "light"
@@ -128,6 +130,7 @@ class Main(ft.UserControl):
                         new_page
                        ],
                        bgcolor=ft.colors.INDIGO_50,
+                       scroll="auto",
                        vertical_alignment="center",
                        horizontal_alignment="center",
                     )
@@ -142,7 +145,7 @@ class Main(ft.UserControl):
         
     
 
-ft.app(target = Main, view=ft.AppView.WEB_BROWSER)
+ft.app(target = Main,  view=ft.AppView.WEB_BROWSER, assets_dir="assets" )
 
 # def main(page: ft.Page):
 #     page.title = "contador de prueba"
